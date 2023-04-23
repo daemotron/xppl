@@ -9,10 +9,10 @@ typedef void (*xppl_logfunc_t)(const char *);
 
 typedef enum
 {
-    XPPL_DEBUG = 0,
-    XPPL_INFO = 1,
-    XPPL_WARN = 2,
-    XPPL_ERROR = 4
+    XPPL_LOG_DEBUG = 0,
+    XPPL_LOG_INFO = 1,
+    XPPL_LOG_WARN = 2,
+    XPPL_LOG_ERROR = 4
 } xppl_loglevel_t;
 
 void xppl_init(xppl_logfunc_t, xppl_loglevel_t, const char *);

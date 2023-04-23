@@ -16,7 +16,7 @@ xppl_log_error(const char *message, ...)
 {
     va_list args;
     va_start(args, message);
-    _log_msg_v(XPPL_ERROR, message, args);
+    _log_msg_v(XPPL_LOG_ERROR, message, args);
     va_end(args);
 }
 
@@ -26,7 +26,7 @@ xppl_log_warn(const char *message, ...)
 {
     va_list args;
     va_start(args, message);
-    _log_msg_v(XPPL_WARN, message, args);
+    _log_msg_v(XPPL_LOG_WARN, message, args);
     va_end(args);
 }
 
@@ -36,7 +36,7 @@ xppl_log_info(const char *message, ...)
 {
     va_list args;
     va_start(args, message);
-    _log_msg_v(XPPL_INFO, message, args);
+    _log_msg_v(XPPL_LOG_INFO, message, args);
     va_end(args);
 }
 
@@ -46,7 +46,7 @@ xppl_log_debug(const char *message, ...)
 {
     va_list args;
     va_start(args, message);
-    _log_msg_v(XPPL_DEBUG, message, args);
+    _log_msg_v(XPPL_LOG_DEBUG, message, args);
     va_end(args);
 }
 

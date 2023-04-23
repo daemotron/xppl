@@ -41,19 +41,19 @@ _log_level_string(xppl_loglevel_t level)
 {
     switch (level)
     {
-        case XPPL_DEBUG:
+        case XPPL_LOG_DEBUG:
             return "DEBUG";
             break;
 
-        case XPPL_INFO:
+        case XPPL_LOG_INFO:
             return " INFO";
             break;
 
-        case XPPL_WARN:
+        case XPPL_LOG_WARN:
             return " WARN";
             break;
 
-        case XPPL_ERROR:
+        case XPPL_LOG_ERROR:
             return "ERROR";
             break;
 
@@ -96,7 +96,7 @@ _log_msg_v(xppl_loglevel_t level, const char *message, va_list args)
     memset(ful_buffer, '\0', _LOG_FUL_BUF_SIZE);
     if (snprintf(ful_buffer, _LOG_FUL_BUF_SIZE, _LOG_MSG_FMT, tsp_buffer, _log_prefix, _log_level_string(level), msg_buffer) < 0)
     {
-        _log_func("XPPL_ERROR: Unable to format full log entry.\n");
+        _log_func("XPPL ERROR: Unable to format full log entry.\n");
         return;
     }
     
