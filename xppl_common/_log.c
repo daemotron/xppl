@@ -22,6 +22,14 @@ _log_init(xppl_logfunc_t log_func, xppl_loglevel_t log_level, const char *prefix
 
 
 void
+_log_destroy(void)
+{
+    memset(_log_prefix, '\0', _LOG_PREFIX_SIZE);
+    _log_func = NULL;
+}
+
+
+void
 _log_level_set(xppl_loglevel_t level)
 {
     _log_level = level;

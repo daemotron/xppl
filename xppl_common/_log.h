@@ -13,6 +13,7 @@ extern "C" {
 #define _LOG_MSG_FMT        "%s [%s]: %s: %s\n"
 
 void _log_init(xppl_logfunc_t, xppl_loglevel_t, const char *);
+void _log_destroy(void);
 void _log_level_set(xppl_loglevel_t);
 const char *_log_level_string(xppl_loglevel_t);
 void _log_msg_v(xppl_loglevel_t, const char *, va_list);

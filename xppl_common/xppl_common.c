@@ -54,5 +54,5 @@ xppl_log_debug(const char *message, ...)
 void
 xppl_destroy(void)
 {
-    
+    _log_destroy();
 }
