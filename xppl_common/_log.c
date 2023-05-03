@@ -16,7 +16,7 @@ void
 _log_init(xppl_logfunc_t log_func, xppl_loglevel_t log_level, const char *prefix)
 {
     memset(_log_prefix, '\0', _LOG_PREFIX_SIZE);
-    strncpy(_log_prefix, prefix, _LOG_PREFIX_SIZE);
+    strncpy(_log_prefix, prefix, _LOG_PREFIX_SIZE - 1);
     _log_func = log_func;
     _log_level = log_level;
 }
