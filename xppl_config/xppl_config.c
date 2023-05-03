@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 
 #include <xppl.h>
@@ -8,10 +9,7 @@
 
 
 void _xppl_config_update(xppl_config_ctx_t *, const char *, xppl_config_data_t);
-
-
-static unsigned int _xppl_config_entry_count;
-static xppl_config_entry_t *_xppl_config_entries;
+void _xppl_config_parse(xppl_config_ctx_t *, const char *, int);
 
 
 void
@@ -41,6 +39,71 @@ _xppl_config_update(xppl_config_ctx_t *ctx, const char *key, xppl_config_data_t 
         ptr->data = xppl_realloc(ptr->data, data_len);
     }
     memcpy(ptr->data, data, data_len);
+}
+
+
+void
+_xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
+{
+    xppl_config_data_t buffer = xppl_calloc(XPPL_CONFIG_LIN_MAXLEN, sizeof(char));
+
+    /* check for blank line */
+    if (sscanf(input, " %s", (char *)buffer) == EOF)
+    {
+        log_debug("Configuration line %d: detected blank line", line_no);
+        return;
+    }
+
+    /* check for comment */
+    if (sscanf(input, " %[#]", (char *)buffer) == 1)
+    {
+        log_debug("Configuration line %d: detected comment", line_no);
+        return;
+    }
+
+    /* check for registered config entries */
+    char *format = xppl_calloc(XPPL_CONFIG_KEY_MAXLEN + 10, sizeof(char));
+
+    for (unsigned int i = 0; i < ctx->entry_count; i++)
+    {
+        snprintf(format, XPPL_CONFIG_KEY_MAXLEN + 10, " %s = %s", ctx->entries[i].key, _cast_get_formatter(ctx->entries[i].type));
+        if(sscanf(input, format, buffer))
+        {
+            _xppl_config_update(ctx, ctx->entries[i].key, buffer);
+            
+            /* write a debug log entry */
+            char *log_format = xppl_calloc(64, sizeof(char));
+            strncpy(log_format, "Configuration line %d: %s set to ", 64);
+            strncat(log_format, _cast_get_formatter(ctx->entries[i].type), 5);
+            switch (ctx->entries[i].type)
+            {
+                case XPPL_CONFIG_INT:
+                    log_debug(log_format, line_no, ctx->entries[i].key, *((long long *)ctx->entries[i].data));
+                    break;
+
+                case XPPL_CONFIG_FLOAT:
+                    log_debug(log_format, line_no, ctx->entries[i].key, *((long double *)ctx->entries[i].data));
+                    break;
+                
+                case XPPL_CONFIG_UNSIGNED:
+                    log_debug(log_format, line_no, ctx->entries[i].key, *((unsigned long long *)ctx->entries[i].data));
+
+                case XPPL_CONFIG_STRING:
+                    log_debug(log_format, line_no, ctx->entries[i].key, (char *)ctx->entries[i].data);
+                    break;
+
+                default:
+                    log_debug("Configuration line %d: %s not set (invalid format)", line_no, ctx->entries[i].key);
+                    break;
+            }
+            free(log_format);
+        }
+        memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + 10);
+    }
+
+    /* clean up */
+    free(format);
+    free(buffer);
 }
 
 
@@ -163,7 +226,7 @@ xppl_config_entry_t *
 xppl_config_find(xppl_config_ctx_t *ctx, const char *key)
 {
     xppl_config_entry_t *ptr = NULL;
-    for (size_t i = 0; i < ctx->entry_count; i++)
+    for (unsigned int i = 0; i < ctx->entry_count; i++)
     {
         if (strncmp(key, ctx->entries[i].key, XPPL_CONFIG_KEY_MAXLEN) == 0)
         {
@@ -178,7 +241,25 @@ xppl_config_find(xppl_config_ctx_t *ctx, const char *key)
 void
 xppl_config_load(xppl_config_ctx_t *ctx, const char *path)
 {
+    FILE *fp = fopen(path, "r");
+    if (fp == NULL)
+    {
+        log_error("Cannot open configuration file %s", path);
+        return;
+    }
 
+    int line_no = 0;
+    char *config_line = xppl_calloc(XPPL_CONFIG_LIN_MAXLEN, sizeof(char));
+
+    while (fgets(config_line, XPPL_CONFIG_LIN_MAXLEN, fp))
+    {
+        line_no++;
+        _xppl_config_parse(ctx, config_line, line_no);
+        memset(config_line, '\0', XPPL_CONFIG_LIN_MAXLEN);
+    }
+
+    fclose(fp);
+    free(config_line);
 }
 
 

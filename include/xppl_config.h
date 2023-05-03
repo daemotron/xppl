@@ -11,6 +11,7 @@ extern "C" {
 
 #define XPPL_CONFIG_KEY_MAXLEN 128
 #define XPPL_CONFIG_VAL_MAXLEN 512
+#define XPPL_CONFIG_LIN_MAXLEN 1024
 
 
 typedef enum xppl_config_type_n
@@ -46,6 +47,8 @@ void xppl_config_init(xppl_config_ctx_t *);
 void xppl_config_destroy(xppl_config_ctx_t *);
 
 void xppl_config_register(xppl_config_ctx_t *, const char *, xppl_config_type_t, xppl_config_data_t);
+void xppl_config_load(xppl_config_ctx_t *, const char *);
+
 xppl_config_entry_t *xppl_config_find(xppl_config_ctx_t *, const char *);
 
 long long xppl_config_data_get_i(xppl_config_ctx_t *, const char *);
