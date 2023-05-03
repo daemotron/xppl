@@ -87,6 +87,7 @@ _xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
                 
                 case XPPL_CONFIG_UNSIGNED:
                     xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((unsigned long long *)ctx->entries[i].data));
+                    break;
 
                 case XPPL_CONFIG_STRING:
                     xppl_log_debug(log_format, line_no, ctx->entries[i].key, (char *)ctx->entries[i].data);
