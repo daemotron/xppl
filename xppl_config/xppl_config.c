@@ -7,7 +7,7 @@
 #include "_cast.h"
 
 
-void _xppl_config_update(const char *, xppl_config_data_t);
+void _xppl_config_update(xppl_config_ctx_t *, const char *, xppl_config_data_t);
 
 
 static unsigned int _xppl_config_entry_count;
@@ -15,9 +15,9 @@ static xppl_config_entry_t *_xppl_config_entries;
 
 
 void
-_xppl_config_update(const char *key, xppl_config_data_t data)
+_xppl_config_update(xppl_config_ctx_t *ctx, const char *key, xppl_config_data_t data)
 {
-    xppl_config_entry_t *ptr = xppl_config_find(key);
+    xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
     {
         xppl_log_warn("Config update: Cannot find configuration entry for %s", key);
@@ -45,19 +45,19 @@ _xppl_config_update(const char *key, xppl_config_data_t data)
 
 
 void
-xppl_config_init(void)
+xppl_config_init(xppl_config_ctx_t *ctx)
 {
-    _xppl_config_entries = NULL;
-    _xppl_config_entry_count = 0;
+    ctx->entries = NULL;
+    ctx->entry_count = 0;
 }
 
 
 void
-xppl_config_destroy(void)
+xppl_config_destroy(xppl_config_ctx_t *ctx)
 {
-    for (size_t i = 0; i < _xppl_config_entry_count; i++)
+    for (size_t i = 0; i < ctx->entry_count; i++)
     {
-        xppl_config_entry_t *current_entry = &_xppl_config_entries[i];
+        xppl_config_entry_t *current_entry = &ctx->entries[i];
         if (current_entry->key != NULL)
         {
             free(current_entry->key);
@@ -71,16 +71,16 @@ xppl_config_destroy(void)
             free(current_entry->default_data);
         }
     }
-    free(_xppl_config_entries);
-    _xppl_config_entries = NULL;
-    _xppl_config_entry_count = 0;
+    free(ctx->entries);
+    ctx->entries = NULL;
+    ctx->entry_count = 0;
 }
 
 
 long long
-xppl_config_data_get_i(const char *key)
+xppl_config_data_get_i(xppl_config_ctx_t *ctx, const char *key)
 {
-    xppl_config_entry_t *ptr = xppl_config_find(key);
+    xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
     {
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
@@ -91,9 +91,9 @@ xppl_config_data_get_i(const char *key)
 
 
 long double
-xppl_config_data_get_f(const char *key)
+xppl_config_data_get_f(xppl_config_ctx_t *ctx, const char *key)
 {
-    xppl_config_entry_t *ptr = xppl_config_find(key);
+    xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
     {
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
@@ -104,9 +104,9 @@ xppl_config_data_get_f(const char *key)
 
 
 unsigned long long
-xppl_config_data_get_u(const char *key)
+xppl_config_data_get_u(xppl_config_ctx_t *ctx, const char *key)
 {
-    xppl_config_entry_t *ptr = xppl_config_find(key);
+    xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
     {
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
@@ -117,9 +117,9 @@ xppl_config_data_get_u(const char *key)
 
 
 size_t
-xppl_config_data_get_s(const char *key, char *buffer, size_t buflen)
+xppl_config_data_get_s(xppl_config_ctx_t *ctx, const char *key, char *buffer, size_t buflen)
 {
-    xppl_config_entry_t *ptr = xppl_config_find(key);
+    xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
     {
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
@@ -132,42 +132,42 @@ xppl_config_data_get_s(const char *key, char *buffer, size_t buflen)
 
 
 void
-xppl_config_data_set_i(const char *key, long long data)
+xppl_config_data_set_i(xppl_config_ctx_t *ctx, const char *key, long long data)
 {
-    _xppl_config_update(key, &data);
+    _xppl_config_update(ctx, key, &data);
 }
 
 
 void
-xppl_config_data_set_f(const char *key, long double data)
+xppl_config_data_set_f(xppl_config_ctx_t *ctx, const char *key, long double data)
 {
-    _xppl_config_update(key, &data);
+    _xppl_config_update(ctx, key, &data);
 }
 
 
 void
-xppl_config_data_set_u(const char *key, unsigned long long data)
+xppl_config_data_set_u(xppl_config_ctx_t *ctx, const char *key, unsigned long long data)
 {
-    _xppl_config_update(key, &data);
+    _xppl_config_update(ctx, key, &data);
 }
 
 
 void
-xppl_config_data_set_s(const char *key, const char* data)
+xppl_config_data_set_s(xppl_config_ctx_t *ctx, const char *key, const char* data)
 {
-    _xppl_config_update(key, data);
+    _xppl_config_update(ctx, key, data);
 }
 
 
 xppl_config_entry_t *
-xppl_config_find(const char *key)
+xppl_config_find(xppl_config_ctx_t *ctx, const char *key)
 {
     xppl_config_entry_t *ptr = NULL;
-    for (size_t i = 0; i < _xppl_config_entry_count; i++)
+    for (size_t i = 0; i < ctx->entry_count; i++)
     {
-        if (strncmp(key, _xppl_config_entries[i].key, XPPL_CONFIG_KEY_MAXLEN) == 0)
+        if (strncmp(key, ctx->entries[i].key, XPPL_CONFIG_KEY_MAXLEN) == 0)
         {
-            ptr = &_xppl_config_entries[i];
+            ptr = &ctx->entries[i];
             break;
         }
     }
@@ -176,19 +176,26 @@ xppl_config_find(const char *key)
 
 
 void
-xppl_config_register(const char *key, xppl_config_type_t type, xppl_config_data_t default_value)
+xppl_config_load(xppl_config_ctx_t *ctx, const char *path)
+{
+
+}
+
+
+void
+xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t type, xppl_config_data_t default_value)
 {
     /* create and initialize a new node */
-    _xppl_config_entry_count++;
-    if (_xppl_config_entry_count == 1)
+    ctx->entry_count++;
+    if (ctx->entry_count == 1)
     {
-        _xppl_config_entries = xppl_calloc(1, sizeof(xppl_config_entry_t));
+        ctx->entries = xppl_calloc(1, sizeof(xppl_config_entry_t));
     }
     else
     {
-        _xppl_config_entries = xppl_realloc(_xppl_config_entries, sizeof(xppl_config_entry_t) * _xppl_config_entry_count);
+        ctx->entries = xppl_realloc(ctx->entries, sizeof(xppl_config_entry_t) * ctx->entry_count);
     }
-    xppl_config_entry_t *new_entry = &_xppl_config_entries[_xppl_config_entry_count - 1];
+    xppl_config_entry_t *new_entry = &ctx->entries[ctx->entry_count - 1];
     new_entry->key = NULL;
     new_entry->data = NULL;
     new_entry->default_data = NULL;
