@@ -12,7 +12,7 @@ extern "C" {
 
 typedef void (*xppl_logfunc_t)(const char *);
 
-typedef enum
+typedef enum xppl_loglevel_n
 {
     XPPL_LOG_DEBUG = 0,
     XPPL_LOG_INFO = 1,
