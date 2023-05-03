@@ -8,6 +8,8 @@ extern "C" {
 #define xppl_max(a,b) ((a) >= (b) ? (a) : (b))
 #define xppl_min(a,b) ((a) <= (b) ? (a) : (b))
 
+#define xppl_unused(x) (void)(x)
+
 typedef void (*xppl_logfunc_t)(const char *);
 
 typedef enum
