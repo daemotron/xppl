@@ -10,7 +10,7 @@ extern "C" {
 
 
 #if IBM
-#include <winnt.h>
+#include <windows.h>
 #define	EXCEPTION_ASSERTION_FAILED 0x8000
 #define	XPPL_CRASH()	\
 	do { \
