@@ -191,11 +191,11 @@ xppl_config_data_get_s(xppl_config_ctx_t *ctx, const char *key, char *buffer, si
     if (ptr == NULL)
     {
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
-        return NULL;
+        return 0;
     }
     strncpy(buffer, (char *)ptr->data, buflen);
     buffer[buflen-1] = '\0';
-    return strlen(buffer);
+    return strnlen(buffer, buflen);
 }
 
 
