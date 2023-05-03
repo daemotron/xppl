@@ -98,6 +98,11 @@ _xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
             }
             free(log_format);
         }
+        else
+        {
+            /* Anything else must be a syntax error */
+            xppl_log_error("Configuration line %d: Syntax error.", line_no);
+        }
         memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + 10);
     }
 
