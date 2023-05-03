@@ -8,12 +8,12 @@
 #include "_cast.h"
 
 
-void _xppl_config_update(xppl_config_ctx_t *, const char *, xppl_config_data_t);
+void _xppl_config_update(xppl_config_ctx_t *, const char *, const xppl_config_data_t);
 void _xppl_config_parse(xppl_config_ctx_t *, const char *, int);
 
 
 void
-_xppl_config_update(xppl_config_ctx_t *ctx, const char *key, xppl_config_data_t data)
+_xppl_config_update(xppl_config_ctx_t *ctx, const char *key, const xppl_config_data_t data)
 {
     xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
     if (ptr == NULL)
