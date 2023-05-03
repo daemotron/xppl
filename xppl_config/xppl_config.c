@@ -50,14 +50,14 @@ _xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
     /* check for blank line */
     if (sscanf(input, " %s", (char *)buffer) == EOF)
     {
-        log_debug("Configuration line %d: detected blank line", line_no);
+        xppl_log_debug("Configuration line %d: detected blank line", line_no);
         return;
     }
 
     /* check for comment */
     if (sscanf(input, " %[#]", (char *)buffer) == 1)
     {
-        log_debug("Configuration line %d: detected comment", line_no);
+        xppl_log_debug("Configuration line %d: detected comment", line_no);
         return;
     }
 
@@ -78,22 +78,22 @@ _xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
             switch (ctx->entries[i].type)
             {
                 case XPPL_CONFIG_INT:
-                    log_debug(log_format, line_no, ctx->entries[i].key, *((long long *)ctx->entries[i].data));
+                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((long long *)ctx->entries[i].data));
                     break;
 
                 case XPPL_CONFIG_FLOAT:
-                    log_debug(log_format, line_no, ctx->entries[i].key, *((long double *)ctx->entries[i].data));
+                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((long double *)ctx->entries[i].data));
                     break;
                 
                 case XPPL_CONFIG_UNSIGNED:
-                    log_debug(log_format, line_no, ctx->entries[i].key, *((unsigned long long *)ctx->entries[i].data));
+                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((unsigned long long *)ctx->entries[i].data));
 
                 case XPPL_CONFIG_STRING:
-                    log_debug(log_format, line_no, ctx->entries[i].key, (char *)ctx->entries[i].data);
+                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, (char *)ctx->entries[i].data);
                     break;
 
                 default:
-                    log_debug("Configuration line %d: %s not set (invalid format)", line_no, ctx->entries[i].key);
+                    xppl_log_debug("Configuration line %d: %s not set (invalid format)", line_no, ctx->entries[i].key);
                     break;
             }
             free(log_format);
@@ -244,7 +244,7 @@ xppl_config_load(xppl_config_ctx_t *ctx, const char *path)
     FILE *fp = fopen(path, "r");
     if (fp == NULL)
     {
-        log_error("Cannot open configuration file %s", path);
+        xppl_log_error("Cannot open configuration file %s", path);
         return;
     }
 
