@@ -9,7 +9,7 @@ extern "C" {
 #define _LOG_TSP_BUF_SIZE   20
 #define _LOG_PREFIX_SIZE    32
 #define _LOG_FUL_BUF_SIZE   1088
-#define	_LOG_DATE_FMT       "%F %T"
+#define	_LOG_DATE_FMT       "%Y-%m-%d %H:%M:%S"
 #define _LOG_MSG_FMT        "%s [%s]: %s: %s\n"
 
 void _log_init(xppl_logfunc_t, xppl_loglevel_t, const char *);
