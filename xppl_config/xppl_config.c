@@ -223,7 +223,7 @@ xppl_config_data_set_u(xppl_config_ctx_t *ctx, const char *key, unsigned long lo
 void
 xppl_config_data_set_s(xppl_config_ctx_t *ctx, const char *key, const char* data)
 {
-    _xppl_config_update(ctx, key, (xppl_config_data_t)data);
+    _xppl_config_update(ctx, key, (const xppl_config_data_t)data);
 }
 
 
