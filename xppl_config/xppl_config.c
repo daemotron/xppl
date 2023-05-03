@@ -24,7 +24,7 @@ _xppl_config_update(xppl_config_ctx_t *ctx, const char *key, xppl_config_data_t 
     size_t data_len = 0;
     if (ptr->type == XPPL_CONFIG_STRING)
     {
-        data_len = strlnlen((char *)data, XPPL_CONFIG_VAL_MAXLEN - 1) + 1;
+        data_len = strnlen((char *)data, XPPL_CONFIG_VAL_MAXLEN - 1) + 1;
     }
     else
     {
