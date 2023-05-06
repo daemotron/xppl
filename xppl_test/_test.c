@@ -72,22 +72,31 @@ _xppl_test_suite_destroy(xppl_test_suite_t *ts)
 
 
 bool
-_xppl_test_suite_run(xppl_test_suite_t *ts)
+_xppl_test_suite_run(xppl_test_suite_t *ts, xppl_test_stat_t *stat)
 {
     bool suite_result = true;
+    stat->conducted = 0;
+    stat->failed = 0;
+    stat->passed = 0;
 
     for (unsigned int i = 0; i < ts->count; i++)
     {
         printf("Executing test %03u - %s ... ", i + 1, ts->tests[i].name);
         if (ts->tests[i].runner())
         {
-            printf("success\n");
+            printf("passed\n");
+            stat->passed += 1;
+            ts->tests[i].passed = true;
         }
         else
         {
             printf("failed\n");
             suite_result = false;
+            stat->failed += 1;
+            ts->tests[i].passed = false;
         }
+        ts->tests[i].conduced = true;
+        stat->conducted += 1;
     }
 
     return suite_result;

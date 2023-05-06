@@ -35,6 +35,14 @@ typedef struct xppl_test_runner_s
 } xppl_test_runner_t;
 
 
+typedef struct xppl_test_stat_s
+{
+    unsigned int conducted;
+    unsigned int passed;
+    unsigned int failed;
+} xppl_test_stat_t;
+
+
 void xppl_test_runner_init(xppl_test_runner_t *);
 void xppl_test_runner_destroy(xppl_test_runner_t*);
 xppl_test_suite_t *xppl_test_suite_create(xppl_test_runner_t *, const char *);

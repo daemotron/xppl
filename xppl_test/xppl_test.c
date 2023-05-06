@@ -78,15 +78,31 @@ bool
 xppl_test_run(xppl_test_runner_t *tr)
 {
     bool runner_result = true;
+    xppl_test_stat_t runner_stat;
+    runner_stat.conducted = 0;
+    runner_stat.failed = 0;
+    runner_stat.passed = 0;
 
     for (unsigned int i = 0; i < tr->count; i++)
     {
         printf("Test Suite %03u: %s\n", i + 1, tr->suites[i].name);
         printf("%.*s\n", (int)strlen(tr->suites[i].name) + 16, _XPPL_TEST_TEST_UNDERLINE);
-        runner_result = runner_result && _xppl_test_suite_run(&tr->suites[i]);
+        xppl_test_stat_t suite_stat;
+        runner_result = runner_result && _xppl_test_suite_run(&tr->suites[i], &suite_stat);
         printf("\n");
-        printf("Result: %d tests conducted, %d tests passed, %d tests failed\n\n", 3, 2, 1);
+        printf(
+            "%s: %d tests conducted, %d tests passed, %d tests failed\n\n", 
+            suite_stat.failed > 0 ? "FAILED" : "PASSED", 
+            suite_stat.conducted, suite_stat.passed, suite_stat.failed
+        );
+        runner_stat.conducted += suite_stat.conducted;
+        runner_stat.passed += suite_stat.passed;
+        runner_stat.failed += suite_stat.failed;
     }
+    printf("%s: %d tests conducted, %d tests passed, %d tests failed\n",
+        runner_result ? "PASSED" : "FAULED", 
+        runner_stat.conducted, runner_stat.passed, runner_stat.failed
+    );
     return runner_result;
 }
 
@@ -94,5 +110,5 @@ xppl_test_run(xppl_test_runner_t *tr)
 bool
 xppl_test_assert_str_equals(const char *s1, const char *s2)
 {
-    return strncmp(s1, s2, xppl_min(strlen(s1), strlen(s2))) == 0;
+    return strlen(s1) == strlen(s2) && strncmp(s1, s2, xppl_min(strlen(s1), strlen(s2))) == 0;
 }

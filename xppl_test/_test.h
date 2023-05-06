@@ -15,7 +15,7 @@ void _xppl_test_case_destroy(xppl_test_case_t *);
 
 void _xppl_test_suite_init(xppl_test_suite_t *, const char *);
 void _xppl_test_suite_destroy(xppl_test_suite_t *);
-bool _xppl_test_suite_run(xppl_test_suite_t *);
+bool _xppl_test_suite_run(xppl_test_suite_t *, xppl_test_stat_t *);
 
 
 #ifdef	__cplusplus
