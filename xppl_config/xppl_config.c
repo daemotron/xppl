@@ -21,7 +21,7 @@ xppl_config_init(xppl_config_ctx_t *ctx, const char *path, const char *separator
     if (path != NULL)
     {
         ctx->path = calloc(strlen(path) + 1, sizeof(char));
-        strncpy(ctx->path, path, strlen(path));
+        strcpy(ctx->path, path);
     }
     else
     {
@@ -31,7 +31,7 @@ xppl_config_init(xppl_config_ctx_t *ctx, const char *path, const char *separator
     if (separator != NULL)
     {
         ctx->separator = calloc(strlen(separator) + 1, sizeof(char));
-        strncpy(ctx->separator, separator, strlen(separator));
+        strcpy(ctx->separator, separator);
     }
     else
     {
