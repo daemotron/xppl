@@ -5,6 +5,9 @@ This is a modular collection of utility functions I wrote for various plugins fo
 Windows, macOS and Linux. It is not a classic library in the sense that this code doesn't
 provide build support for a shared / dynamically linked library.
 
+![XPPL Build Status](https://github.com/daemotron/xppl/actions/workflows/cmake.yml/badge.svg?branch=main)
+![MIT License](https://img.shields.io/badge/license-MIT-green.svg)
+
 ## How XPPL is organized
 
 The code for each module of the XPPL collection resides in their own directory (cf. list
@@ -82,4 +85,3 @@ In your `CMakeLists.txt`, you can embed XPPL modules this way:
 5. Optionally add further modules in the same way as you added the `common` module.
 
 **Please Note:** the `xppl_common` module is mandatory, all other modules are optional.
-
