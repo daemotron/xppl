@@ -5,6 +5,9 @@
 extern "C" {
 #endif
 
+#include <xppl_test.h>
+
+void _test_xppl_common_register(xppl_test_runner_t *);
 
 #ifdef	__cplusplus
 }

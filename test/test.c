@@ -5,6 +5,7 @@
 #include <xppl.h>
 #include <xppl_test.h>
 
+#include "_test_xppl_common.h"
 
 int
 main (int argc, char **argv)
@@ -16,6 +17,8 @@ main (int argc, char **argv)
     bool result = true;
   
     xppl_test_runner_init(&tr);
+    
+    _test_xppl_common_register(&tr);
 
     result = xppl_test_run(&tr);
 
