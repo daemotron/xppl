@@ -10,6 +10,7 @@ extern "C" {
 bool _path_exists(const char *);
 void _path_create_dir(const char *);
 void _path_create_dir_recursive(const char *, const char *);
+size_t _path_dirname(const char *, const char *, char *, size_t);
 
 #ifdef	__cplusplus
 }

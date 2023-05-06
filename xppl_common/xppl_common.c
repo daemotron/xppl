@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <xppl.h>
 #include "_log.h"
@@ -71,6 +72,13 @@ void
 xppl_path_create_recursive(const char *path, const char *separator)
 {
     _path_create_dir_recursive(path, separator);
+}
+
+
+size_t
+xppl_path_dirname(const char *path, const char *separator, char *buffer, size_t buflen)
+{
+    return _path_dirname(path, separator, buffer, buflen);
 }
 
 

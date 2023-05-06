@@ -86,3 +86,71 @@ _path_create_dir_recursive(const char *path, const char *separator)
     free(partname);
     _path_create_dir(path);
 }
+
+
+size_t
+_path_dirname(const char *path, const char *separator, char *buffer, size_t buflen)
+{
+    if ((separator == NULL) || (buflen < 2))
+    {
+        return 0U;
+    }
+
+    /*
+     * Case 1:
+     *
+     * path is a null pointer, or points ot an empty string.
+     * In this case, dirname shall return a string representing
+     * the current directory (".")
+     */
+    if (path == NULL || *path[0] == '\0')
+    {
+        buffer[0] = '.';
+        buffer[1] = '\0';
+        return 2U;
+    }
+
+    char sepchar = separator[0];
+    memset(buffer, '\0', buflen);
+    strncpy(buffer, path, buflen - 1);
+    
+    /* get a pointer to the end of the copied path string */
+    char *ptr = buffer + strlen(buffer);
+
+    /* move past any trailing separators */
+    while (ptr > buffer + 1 && *(ptr - 1) == sepchar)
+    {
+        ptr--;
+    }
+
+    /* move past any non-separator characters (last part of the path) */
+    while (ptr > buffer && *(ptr - 1) != sepchar)
+    {
+        ptr--;
+    }
+    
+    /*
+     * Case 2:
+     *
+     * No separator found, i.e. no directory part detectable.
+     * In this case, path needs to be treated as file name, residing
+     * in the current directory (".")
+     */
+    if (ptr == buffer)
+    {
+        buffer[0] = '.';
+        buffer[1] = '\0';
+        return 2U;
+    }
+
+    /* move past any trailing separators (ensure at least one char remains) */
+    while (ptr > buffer + 1 && *(ptr - 1) == sepchar)
+    {
+        ptr--;
+    }
+
+    /* terminate the directory name */
+    *ptr = '\0';
+
+    return (size_t)(buffer - ptr + 1U);
+}
