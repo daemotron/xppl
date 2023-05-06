@@ -28,6 +28,10 @@ void xppl_log_warn(const char *message, ...);
 void xppl_log_info(const char *message, ...);
 void xppl_log_debug(const char *message, ...);
 
+bool xppl_path_exists(const char *);
+void xppl_path_create(const char *);
+void xppl_path_create_recursive(const char *, const char *);
+
 #ifdef	__cplusplus
 }
 #endif
