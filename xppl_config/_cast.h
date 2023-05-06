@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include <xppl_config.h>
+
 const char *_cast_get_formatter(xppl_config_type_t);
 size_t _cast_get_size(xppl_config_type_t);
 
