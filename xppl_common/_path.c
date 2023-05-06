@@ -103,7 +103,7 @@ _path_dirname(const char *path, const char *separator, char *buffer, size_t bufl
      * In this case, dirname shall return a string representing
      * the current directory (".")
      */
-    if (path == NULL || *path[0] == '\0')
+    if (path == NULL || path[0] == '\0')
     {
         buffer[0] = '.';
         buffer[1] = '\0';
