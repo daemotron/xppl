@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 
@@ -40,10 +41,13 @@ typedef struct xppl_config_ctx_s
 {
     unsigned int entry_count;
     xppl_config_entry_t *entries;
+    bool create_if_not_exists;
+    char *path;
+    char *separator;
 } xppl_config_ctx_t;
 
 
-void xppl_config_init(xppl_config_ctx_t *);
+void xppl_config_init(xppl_config_ctx_t *, const char *, const char *, bool);
 void xppl_config_destroy(xppl_config_ctx_t *);
 
 void xppl_config_register(xppl_config_ctx_t *, const char *, xppl_config_type_t, xppl_config_data_t);

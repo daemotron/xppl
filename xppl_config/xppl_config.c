@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -114,10 +115,32 @@ _xppl_config_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
 
 
 void
-xppl_config_init(xppl_config_ctx_t *ctx)
+xppl_config_init(xppl_config_ctx_t *ctx, const char *path, const char *separator, bool create_file_if_not_exists)
 {
     ctx->entries = NULL;
     ctx->entry_count = 0;
+    ctx->create_if_not_exists = create_file_if_not_exists;
+
+    if (path != NULL)
+    {
+        ctx->path = calloc(strlen(path) + 1, sizeof(char));
+        strncpy(ctx->path, path, strlen(path));
+    }
+    else
+    {
+        ctx->path = NULL;
+    }
+
+    if (separator != NULL)
+    {
+        ctx->separator = calloc(strlen(separator) + 1, sizeof(char));
+        strncpy(ctx->separator, separator, strlen(separator));
+    }
+    else
+    {
+        ctx->separator = NULL;
+    }
+    
 }
 
 
@@ -140,8 +163,25 @@ xppl_config_destroy(xppl_config_ctx_t *ctx)
             free(current_entry->default_data);
         }
     }
-    free(ctx->entries);
-    ctx->entries = NULL;
+
+    if (ctx->entries != NULL)
+    {
+        free(ctx->entries);
+        ctx->entries = NULL;
+    }
+
+    if (ctx->path != NULL)
+    {
+        free(ctx->path);
+        ctx->path = NULL;
+    }
+
+    if (ctx->separator != NULL)
+    {
+        free(ctx->separator);
+        ctx->separator = NULL;
+    }
+    
     ctx->entry_count = 0;
 }
 
