@@ -85,7 +85,7 @@ xppl_test_run(xppl_test_runner_t *tr)
         printf("%.*s\n", (int)strlen(tr->suites[i].name) + 16, _XPPL_TEST_TEST_UNDERLINE);
         runner_result = runner_result && _xppl_test_suite_run(&tr->suites[i]);
         printf("\n");
-        printf("Result: %d tests conducted, %d tests passed, %d tests failed", 3, 2, 1);
+        printf("Result: %d tests conducted, %d tests passed, %d tests failed\n\n", 3, 2, 1);
     }
     return runner_result;
 }

@@ -78,7 +78,7 @@ _xppl_test_suite_run(xppl_test_suite_t *ts)
 
     for (unsigned int i = 0; i < ts->count; i++)
     {
-        printf("Executing test %03u - %s ...", i + 1, ts->tests[i].name);
+        printf("Executing test %03u - %s ... ", i + 1, ts->tests[i].name);
         if (ts->tests[i].runner())
         {
             printf("success\n");
