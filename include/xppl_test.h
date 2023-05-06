@@ -41,6 +41,8 @@ xppl_test_suite_t *xppl_test_suite_create(xppl_test_runner_t *, const char *);
 xppl_test_case_t *xppl_test_case_create(xppl_test_suite_t *, xppl_test_func_t, const char *);
 bool xppl_test_run(xppl_test_runner_t *);
 
+bool xppl_test_assert_str_equals(const char *, const char *);
+
 #ifdef	__cplusplus
 }
 #endif

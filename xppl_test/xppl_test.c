@@ -89,3 +89,10 @@ xppl_test_run(xppl_test_runner_t *tr)
     }
     return runner_result;
 }
+
+
+bool
+xppl_test_assert_str_equals(const char *s1, const char *s2)
+{
+    return strncmp(s1, s2, xppl_min(strlen(s1), strlen(s2))) == 0;
+}
