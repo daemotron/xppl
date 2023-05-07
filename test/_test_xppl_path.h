@@ -1,5 +1,5 @@
-#ifndef _TEST_XPPL_COMMON_H_
-#define _TEST_XPPL_COMMON_H_
+#ifndef _TEST_XPPL_PATH_H_
+#define _TEST_XPPL_PATH_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,4 +13,4 @@ void _test_xppl_path_register(xppl_test_runner_t *);
 }
 #endif
 
-#endif /* _TEST_XPPL_COMMON_H_ */
+#endif /* _TEST_XPPL_PATH_H_ */
