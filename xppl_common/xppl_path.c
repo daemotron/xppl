@@ -12,12 +12,11 @@
 
 #include <xppl.h>
 #include <xppl_alloc.h>
-
-#include "_path.h"
+#include <xppl_path.h>
 
 
 bool
-_path_exists(const char *path)
+xppl_path_exists(const char *path)
 {
 #if IBM
     size_t len = strlen(path);
@@ -34,7 +33,7 @@ _path_exists(const char *path)
 
 
 void
-_path_create_dir(const char *path)
+xppl_path_create_dir(const char *path)
 {
     if (path == NULL)
     {
@@ -67,7 +66,7 @@ _path_create_dir(const char *path)
 
 
 void
-_path_create_dir_recursive(const char *path, const char *separator)
+xppl_path_create_dir_recursive(const char *path, const char *separator)
 {
     if ((path == NULL) || (separator == NULL))
     {
@@ -80,16 +79,16 @@ _path_create_dir_recursive(const char *path, const char *separator)
     for (const char *start = path, *end = strchr(&path[1], sepchar); end != NULL; start = end, end = strchr(&start[1], sepchar))
     {
         strncat(partname, start, end - start);
-        _path_create_dir(partname);
+        xppl_path_create_dir(partname);
     }
 
     free(partname);
-    _path_create_dir(path);
+    xppl_path_create_dir(path);
 }
 
 
 size_t
-_path_dirname(const char *path, const char *separator, char *buffer, size_t buflen)
+xppl_path_dirname(const char *path, const char *separator, char *buffer, size_t buflen)
 {
     if ((separator == NULL) || (buflen < 2))
     {

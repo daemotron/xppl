@@ -4,7 +4,6 @@
 
 #include <xppl.h>
 #include "_log.h"
-#include "_path.h"
 
 
 void
@@ -51,34 +50,6 @@ xppl_log_debug(const char *message, ...)
     va_start(args, message);
     _log_msg_v(XPPL_LOG_DEBUG, message, args);
     va_end(args);
-}
-
-
-bool
-xppl_path_exists(const char *path)
-{
-    return _path_exists(path);
-}
-
-
-void
-xppl_path_create(const char *path)
-{
-    _path_create_dir(path);
-}
-
-
-void
-xppl_path_create_recursive(const char *path, const char *separator)
-{
-    _path_create_dir_recursive(path, separator);
-}
-
-
-size_t
-xppl_path_dirname(const char *path, const char *separator, char *buffer, size_t buflen)
-{
-    return _path_dirname(path, separator, buffer, buflen);
 }
 
 
