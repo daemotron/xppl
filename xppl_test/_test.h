@@ -9,6 +9,7 @@ extern "C" {
 #include <xppl_test.h>
 
 #define _XPPL_TEST_TEST_UNDERLINE "================================================================================================================================"
+#define _XPPL_TEST_TEST_DOTS      "................................................................................................................................"
 
 void _xppl_test_case_init(xppl_test_case_t *, xppl_test_func_t, const char *);
 void _xppl_test_case_destroy(xppl_test_case_t *);

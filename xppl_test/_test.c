@@ -81,7 +81,7 @@ _xppl_test_suite_run(xppl_test_suite_t *ts, xppl_test_stat_t *stat)
 
     for (unsigned int i = 0; i < ts->count; i++)
     {
-        printf("Executing test %03u - %s ... ", i + 1, ts->tests[i].name);
+        printf("Executing test %03u - %.40s %.*s ", i + 1, ts->tests[i].name, 50 - xppl_min((int)strlen(ts->tests[i].name), 40), _XPPL_TEST_TEST_DOTS);
         if (ts->tests[i].runner())
         {
             printf("passed\n");
