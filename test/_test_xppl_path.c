@@ -21,7 +21,7 @@ bool __test_xppl_path_dirname_06(void);
 
 void _test_xppl_path_register(xppl_test_runner_t *tr)
 {
-    xppl_test_suite_t *suite = xppl_test_suite_create(tr, "XPPL Common");
+    xppl_test_suite_t *suite = xppl_test_suite_create(tr, "XPPL Path");
     xppl_test_case_create(suite, __test_xppl_path_dirname_01, "xppl.path.dirname regular ending");
     xppl_test_case_create(suite, __test_xppl_path_dirname_02, "xppl.path.dirname trailing separator");
     xppl_test_case_create(suite, __test_xppl_path_dirname_03, "xppl.path.dirname separator only");
