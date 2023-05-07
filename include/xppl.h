@@ -10,6 +10,20 @@ extern "C" {
 
 #define xppl_unused(x) (void)(x)
 
+#if IBM
+#include <windows.h>
+#define	EXCEPTION_ASSERTION_FAILED 0x8000
+#define	xppl_crash()	\
+	do { \
+		RaiseException(EXCEPTION_ASSERTION_FAILED, \
+		    EXCEPTION_NONCONTINUABLE, 0, NULL); \
+		/* Needed to avoid no-return-value warnings */ \
+		abort(); \
+	} while (0)
+#else /* ! IBM */
+#define	xppl_crash() abort()
+#endif
+
 #ifdef	__cplusplus
 }
 #endif
