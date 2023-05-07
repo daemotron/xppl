@@ -5,7 +5,7 @@
 #include <xppl_test.h>
 #include <xppl_path.h>
 
-#include "_test_xppl_common.h"
+#include "_test_xppl_path.h"
 
 /* helper functions */
 void __console_log(const char *);
