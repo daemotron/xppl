@@ -6,6 +6,7 @@
 #include <xppl.h>
 #include <xppl_alloc.h>
 #include <xppl_config.h>
+#include <xppl_log.h>
 
 #include "_cast.h"
 #include "_cfg.h"
@@ -249,4 +250,3 @@ xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t
         memcpy(new_entry->data, default_value, vallen);
     }
 }
-
