@@ -82,7 +82,6 @@ xppl_float_almost_equal_f(float f1, float f2)
     }
 
     int32_t delta_u = xppl_int_abs(uf1.i - uf2.i);
-
     if (delta_u <= XPPL_FLOAT_MAX_ULP)
     {
         return true;
@@ -115,7 +114,6 @@ xppl_float_almost_equal_d(double d1, double d2)
     }
 
     int64_t delta_u = xppl_int_abs(ud1.i - ud2.i);
-
     if (delta_u <= XPPL_FLOAT_MAX_ULP)
     {
         return true;
@@ -158,7 +156,6 @@ xppl_float_almost_equal_l(long double ld1, long double ld2)
 #else
     int64_t delta_u = xppl_int_abs(ud1.i - ud2.i);
 #endif
-
     if (delta_u <= XPPL_FLOAT_MAX_ULP)
     {
         return true;
