@@ -13,6 +13,8 @@ typedef __int128_t int128_t;
 typedef __uint128_t uint128_t;
 #endif
 
+#define xppl_int_abs(a) ((a) < 0 ? (-a) : (a))
+
 #ifdef	__cplusplus
 }
 #endif
