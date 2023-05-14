@@ -100,7 +100,7 @@ xppl_test_run(xppl_test_runner_t *tr)
         runner_stat.failed += suite_stat.failed;
     }
     printf("%s: %d tests conducted, %d tests passed, %d tests failed\n",
-        runner_result ? "PASSED" : "FAULED", 
+        runner_result ? "PASSED" : "FAILED", 
         runner_stat.conducted, runner_stat.passed, runner_stat.failed
     );
     return runner_result;
