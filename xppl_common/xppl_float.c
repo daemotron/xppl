@@ -148,7 +148,7 @@ xppl_float_almost_equal_l(long double ld1, long double ld2)
     }
 
     long double delta_f = fabsl(ld1 - ld2);
-    if (delta_f <= XPPL_FLOAT_MAX_ULP * DBL_EPSILON) {
+    if (delta_f <= XPPL_FLOAT_MAX_ULP * LDBL_EPSILON) {
         return true;
     }
 
