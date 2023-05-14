@@ -31,7 +31,7 @@
 #define xppl_float_check_neg(a, b)  ((xppl_float_neg(a)) != (xppl_float_neg(b)) ? (true) : (false))
 #define xppl_float_check_zero(a, b) ((xppl_float_zero(a)) && (xppl_float_zero(b)) ? (true) : (false))
 
-#define xppl_float_check(a, b) ((xppl_float_check_nan(a, b)) ? (0) : ((xppl_float_check_inf(a, b)) ? (0) : ((xppl_float_check_zero(a, b)) ? (1) : ((xppl_float_check_neg(a, b)) ? (0) : (2)))))
+#define xppl_float_check(a, b) ((xppl_float_check_nan(a, b)) ? (0) : ((xppl_float_check_inf(a, b)) ? (0) : ((xppl_float_check_zero(a, b)) ? (1) : ((xppl_float_check_neg(a, b)) ? (0) : ((a.i) == (b.i) ? (1) : (2))))))
 
 
 typedef union xppl_float_float_u

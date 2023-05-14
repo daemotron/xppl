@@ -132,7 +132,7 @@ __test_xppl_config_08(void)
     long double default_value = 3.1415926535;
     xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value);
-    bool result = xppl_float_almost_equal_l(xppl_config_data_get_i(&ctx, "pi"), default_value);
+    bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_value);
     xppl_config_destroy(&ctx);
     return result;
 }
