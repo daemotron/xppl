@@ -22,7 +22,7 @@
  * conditions for 1:
  *   - both are zero (+/- doesn't matter)
  */
-#define xppl_float_neg(a)      ((a.i) < (0) ? (true) : (false))
+#define xppl_float_neg(a)      ((a.f) < (0.0) ? (true) : (false))
 #define xppl_float_inf(a)      ((fpclassify(a.f)) == (FP_INFINITE) ? (true) : (false))
 #define xppl_float_nan(a)      ((fpclassify(a.f)) == (FP_NAN)      ? (true) : (false))
 #define xppl_float_zero(a)     ((fpclassify(a.f)) == (FP_ZERO)     ? (true) : (false))
