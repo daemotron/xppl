@@ -28,19 +28,31 @@ bool __test_xppl_config_05(void);
 bool __test_xppl_config_06(void);
 bool __test_xppl_config_07(void);
 bool __test_xppl_config_08(void);
+bool __test_xppl_config_09(void);
+bool __test_xppl_config_10(void);
+bool __test_xppl_config_11(void);
+bool __test_xppl_config_12(void);
+bool __test_xppl_config_13(void);
+bool __test_xppl_config_14(void);
 
 void
 _test_xppl_config_register(xppl_test_runner_t *tr)
 {
     xppl_test_suite_t *suite = xppl_test_suite_create(tr, "XPPL Config");
-    xppl_test_case_create(suite, __test_xppl_config_01, "xppl.config.ctx init create file");
-    xppl_test_case_create(suite, __test_xppl_config_02, "xppl.config.ctx init entries");
-    xppl_test_case_create(suite, __test_xppl_config_03, "xppl.config.ctx init entry count");
-    xppl_test_case_create(suite, __test_xppl_config_04, "xppl.config.ctx init path");
-    xppl_test_case_create(suite, __test_xppl_config_05, "xppl.config.ctx init separator");
-    xppl_test_case_create(suite, __test_xppl_config_06, "xppl.config.ctx register count");
-    xppl_test_case_create(suite, __test_xppl_config_07, "xppl.config.ctx int default value");
-    xppl_test_case_create(suite, __test_xppl_config_08, "xppl.config.ctx float default value");
+    xppl_test_case_create(suite, __test_xppl_config_01, "xppl.config.ctx   init create file");
+    xppl_test_case_create(suite, __test_xppl_config_02, "xppl.config.ctx   init entries");
+    xppl_test_case_create(suite, __test_xppl_config_03, "xppl.config.ctx   init entry count");
+    xppl_test_case_create(suite, __test_xppl_config_04, "xppl.config.ctx   init path");
+    xppl_test_case_create(suite, __test_xppl_config_05, "xppl.config.ctx   init separator");
+    xppl_test_case_create(suite, __test_xppl_config_06, "xppl.config.ctx   register count");
+    xppl_test_case_create(suite, __test_xppl_config_07, "xppl.config.entry default value int");
+    xppl_test_case_create(suite, __test_xppl_config_08, "xppl.config.entry default value float");
+    xppl_test_case_create(suite, __test_xppl_config_09, "xppl.config.entry default value unsigned");
+    xppl_test_case_create(suite, __test_xppl_config_10, "xppl.config.entry default value string");
+    xppl_test_case_create(suite, __test_xppl_config_11, "xppl.config.entry set & get value int");
+    xppl_test_case_create(suite, __test_xppl_config_12, "xppl.config.entry set & get value float");
+    xppl_test_case_create(suite, __test_xppl_config_13, "xppl.config.entry set & get value unsigned");
+    xppl_test_case_create(suite, __test_xppl_config_14, "xppl.config.entry set & get value string");
 }
 
 
@@ -133,6 +145,96 @@ __test_xppl_config_08(void)
     xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value);
     bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_value);
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_09(void)
+{
+    xppl_config_ctx_t ctx;
+    unsigned long long default_value = 9460730472580800ULL;
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &default_value);
+    bool result = xppl_config_data_get_u(&ctx, "light-year") == default_value;
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_10(void)
+{
+    xppl_config_ctx_t ctx;
+    char default_value[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
+    char return_value[256] = { '\0' };
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "quote", XPPL_CONFIG_STRING, &default_value);
+    xppl_config_data_get_s(&ctx, "quote", return_value, 256);
+    bool result = xppl_test_assert_str_equals(return_value, default_value);
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_11(void)
+{
+    xppl_config_ctx_t ctx;
+    long long default_value = 42;
+    long long updated_value = -42;
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "answer", XPPL_CONFIG_INT, &default_value);
+    xppl_config_data_set_i(&ctx, "answer", updated_value);
+    bool result = xppl_config_data_get_i(&ctx, "answer") == updated_value;
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_12(void)
+{
+    xppl_config_ctx_t ctx;
+    long double default_value = 3.1415926535;
+    long double updated_value = 6.02214076;
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value);
+    xppl_config_data_set_f(&ctx, "pi", updated_value);
+    bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), updated_value);
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_13(void)
+{
+    xppl_config_ctx_t ctx;
+    unsigned long long default_value = 9460730472580800ULL;
+    unsigned long long updated_value = 149597870700ULL;
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &default_value);
+    xppl_config_data_set_u(&ctx, "light-year", updated_value);
+    bool result = xppl_config_data_get_u(&ctx, "light-year") == updated_value;
+    xppl_config_destroy(&ctx);
+    return result;
+}
+
+
+bool
+__test_xppl_config_14(void)
+{
+    xppl_config_ctx_t ctx;
+    char default_value[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
+    char updated_value[] = "Imagination is more important than knowledge. - Albert Einstein";
+    char return_value[256] = { '\0' };
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "quote", XPPL_CONFIG_STRING, &default_value);
+    xppl_config_data_set_s(&ctx, "quote", updated_value);
+    xppl_config_data_get_s(&ctx, "quote", return_value, 256);
+    bool result = xppl_test_assert_str_equals(return_value, updated_value);
     xppl_config_destroy(&ctx);
     return result;
 }
