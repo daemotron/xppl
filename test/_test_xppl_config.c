@@ -380,7 +380,7 @@ __test_xppl_config_file_02(void)
     bool result_s = xppl_test_assert_str_equals(return_s, default_s);
 
     xppl_config_destroy(&ctx);
-    /* remove(__TEST_XPPL_CONFIG_PATH); */
+    remove(__TEST_XPPL_CONFIG_PATH);
 
     return result_i && result_f && result_u && result_s;
 }
