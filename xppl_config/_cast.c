@@ -1,3 +1,4 @@
+#include <float.h>
 #include <stdlib.h>
 
 #include <xppl.h>
@@ -5,8 +6,11 @@
 #include "_cast.h"
 
 
+#define __CAST_FLOAT_FORMATTER_WRITE "%." xppl_str(LDBL_DIG) "Lf"
+
+
 const char *
-_cast_get_formatter(xppl_config_type_t type)
+_cast_get_formatter(xppl_config_type_t type, _cast_formatter_type_t ftype)
 {
     switch (type)
     {
@@ -19,7 +23,14 @@ _cast_get_formatter(xppl_config_type_t type)
             break;
 
         case XPPL_CONFIG_FLOAT:
-            return "%Lf";
+            if (ftype == _CAST_FORMATTER_WRITE)
+            {
+                return __CAST_FLOAT_FORMATTER_WRITE;
+            }
+            else
+            {
+                return "%Lf";
+            }
             break;
 
         case XPPL_CONFIG_UNSIGNED:
@@ -27,7 +38,14 @@ _cast_get_formatter(xppl_config_type_t type)
             break;
 
         case XPPL_CONFIG_STRING:
-            return "%s";
+            if (ftype == _CAST_FORMATTER_READ)
+            {
+                return "%[^\n\r]";
+            }
+            else
+            {
+                return "%s";
+            }
             break;
 
         default:
