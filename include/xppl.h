@@ -10,6 +10,9 @@ extern "C" {
 
 #define xppl_unused(x) (void)(x)
 
+#define xppl_xstr(s) #s
+#define xppl_str(s) xppl_xstr(s)
+
 #if IBM
 #include <windows.h>
 #define	EXCEPTION_ASSERTION_FAILED 0x8000
