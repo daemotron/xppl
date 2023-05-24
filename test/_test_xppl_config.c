@@ -35,6 +35,7 @@ bool __test_xppl_config_12(void);
 bool __test_xppl_config_13(void);
 bool __test_xppl_config_14(void);
 bool __test_xppl_config_15(void);
+bool __test_xppl_config_16(void);
 
 void
 _test_xppl_config_register(xppl_test_runner_t *tr)
@@ -55,6 +56,7 @@ _test_xppl_config_register(xppl_test_runner_t *tr)
     xppl_test_case_create(suite, __test_xppl_config_13, "xppl.config.entry set & get value unsigned");
     xppl_test_case_create(suite, __test_xppl_config_14, "xppl.config.entry set & get value string");
     xppl_test_case_create(suite, __test_xppl_config_15, "xppl.config.entry set & get multiple values");
+    xppl_test_case_create(suite, __test_xppl_config_16, "xppl.config.entry find among multiple");
 }
 
 
@@ -263,6 +265,28 @@ __test_xppl_config_15(void)
     bool result_s = xppl_test_assert_str_equals(return_s, default_s);
     xppl_config_destroy(&ctx);
     return result_i && result_f && result_u && result_s;
+}
+
+
+bool
+__test_xppl_config_16(void)
+{
+    xppl_config_ctx_t ctx;
+    long long default_i = 42;
+    long double default_f = 3.1415926535;
+    unsigned long long default_u = 9460730472580800ULL;
+    char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "answer", XPPL_CONFIG_INT, &default_i);
+    xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_f);
+    xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &default_u);
+    xppl_config_register(&ctx, "quote", XPPL_CONFIG_STRING, default_s);
+    xppl_config_entry_t *entry = xppl_config_find(&ctx, "light-year");
+    bool result_found = entry != NULL;
+    bool result_type = entry->type == XPPL_CONFIG_UNSIGNED;
+    bool result_data = *((unsigned long long *)entry->data) == default_u;
+    bool result_key = xppl_test_assert_str_equals(entry->key, "light-year");
+    return result_found && result_type && result_key && result_data;
 }
 
 
