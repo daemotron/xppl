@@ -37,6 +37,7 @@ bool __test_xppl_config_14(void);
 bool __test_xppl_config_15(void);
 bool __test_xppl_config_16(void);
 bool __test_xppl_config_17(void);
+bool __test_xppl_config_18(void);
 
 void
 _test_xppl_config_register(xppl_test_runner_t *tr)
@@ -59,6 +60,7 @@ _test_xppl_config_register(xppl_test_runner_t *tr)
     xppl_test_case_create(suite, __test_xppl_config_15, "xppl.config.entry set & get multiple values");
     xppl_test_case_create(suite, __test_xppl_config_16, "xppl.config.entry find among multiple");
     xppl_test_case_create(suite, __test_xppl_config_17, "xppl.config.entry load from file");
+    xppl_test_case_create(suite, __test_xppl_config_18, "xppl.config.entry write to file");
 }
 
 
@@ -322,6 +324,36 @@ __test_xppl_config_17(void)
     xppl_config_data_get_s(&ctx, "foo", return_s, 256);
     bool result_s = xppl_test_assert_str_equals(return_s, correct_s);
     xppl_config_destroy(&ctx);
+    return result_i && result_f && result_u && result_s;
+}
+
+
+bool
+__test_xppl_config_18(void)
+{
+    xppl_config_ctx_t ctx;
+    long long default_i = 42;
+    long double default_f = 3.1415926535L;
+    unsigned long long default_u = 9460730472580800ULL;
+    char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
+    char return_s[256] = { '\0' };
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_PATH, __TEST_XPPL_CONFIG_SEP, true);
+    xppl_config_register(&ctx, "answer", XPPL_CONFIG_INT, &default_i);
+    xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_f);
+    xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &default_u);
+    xppl_config_register(&ctx, "quote", XPPL_CONFIG_STRING, default_s);
+
+    xppl_config_load(&ctx);
+
+    bool result_i = xppl_config_data_get_i(&ctx, "answer") == default_i;
+    bool result_f = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_f);
+    bool result_u = xppl_config_data_get_u(&ctx, "light-year") == default_u;
+    xppl_config_data_get_s(&ctx, "quote", return_s, 256);
+    bool result_s = xppl_test_assert_str_equals(return_s, default_s);
+
+    xppl_config_destroy(&ctx);
+    remove(__TEST_XPPL_CONFIG_PATH);
+
     return result_i && result_f && result_u && result_s;
 }
 

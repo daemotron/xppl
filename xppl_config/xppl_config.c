@@ -184,6 +184,8 @@ xppl_config_find(xppl_config_ctx_t *ctx, const char *key)
 void
 xppl_config_load(xppl_config_ctx_t *ctx)
 {
+    _cfg_create_if_not_exists(ctx);
+
     FILE *fp = fopen(ctx->path, "r");
     if (fp == NULL)
     {
