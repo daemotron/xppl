@@ -13,15 +13,21 @@
 
 
 void
-xppl_config_init(xppl_config_ctx_t *ctx, const char *path, const char *separator, bool create_file_if_not_exists)
+xppl_config_init(xppl_config_ctx_t *ctx, const char *title, const char *path, const char *separator, bool create_file_if_not_exists)
 {
     ctx->entries = NULL;
     ctx->entry_count = 0;
     ctx->create_if_not_exists = create_file_if_not_exists;
 
+    if (title != NULL)
+    {
+        ctx->title = xppl_calloc(strlen(title) + 1, sizeof(char));
+        strcpy(ctx->title, title);
+    }
+
     if (path != NULL)
     {
-        ctx->path = calloc(strlen(path) + 1, sizeof(char));
+        ctx->path = xppl_calloc(strlen(path) + 1, sizeof(char));
         strcpy(ctx->path, path);
     }
     else
@@ -31,7 +37,7 @@ xppl_config_init(xppl_config_ctx_t *ctx, const char *path, const char *separator
 
     if (separator != NULL)
     {
-        ctx->separator = calloc(strlen(separator) + 1, sizeof(char));
+        ctx->separator = xppl_calloc(strlen(separator) + 1, sizeof(char));
         strcpy(ctx->separator, separator);
     }
     else
@@ -47,37 +53,22 @@ xppl_config_destroy(xppl_config_ctx_t *ctx)
     for (size_t i = 0; i < ctx->entry_count; i++)
     {
         xppl_config_entry_t *current_entry = &ctx->entries[i];
-        if (current_entry->key != NULL)
-        {
-            free(current_entry->key);
-        }
-        if (current_entry->data != NULL)
-        {
-            free(current_entry->data);
-        }
-        if (current_entry->default_data != NULL)
-        {
-            free(current_entry->default_data);
-        }
+        free(current_entry->key);
+        free(current_entry->description);
+        free(current_entry->data);
+        free(current_entry->default_data);
+        current_entry->key = NULL;
+        current_entry->description = NULL;
+        current_entry->default_data = NULL;
+        current_entry->data = NULL;
     }
 
-    if (ctx->entries != NULL)
-    {
-        free(ctx->entries);
-        ctx->entries = NULL;
-    }
-
-    if (ctx->path != NULL)
-    {
-        free(ctx->path);
-        ctx->path = NULL;
-    }
-
-    if (ctx->separator != NULL)
-    {
-        free(ctx->separator);
-        ctx->separator = NULL;
-    }
+    free(ctx->entries);
+    free(ctx->path);
+    free(ctx->separator);
+    ctx->entries = NULL;
+    ctx->path = NULL;
+    ctx->separator = NULL;
     
     ctx->entry_count = 0;
 }
@@ -209,7 +200,7 @@ xppl_config_load(xppl_config_ctx_t *ctx)
 
 
 void
-xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t type, xppl_config_data_t default_value)
+xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t type, xppl_config_data_t default_value, const char *description)
 {
     /* create and initialize a new node */
     ctx->entry_count++;
@@ -223,6 +214,7 @@ xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t
     }
     xppl_config_entry_t *new_entry = &ctx->entries[ctx->entry_count - 1];
     new_entry->key = NULL;
+    new_entry->description = NULL;
     new_entry->data = NULL;
     new_entry->default_data = NULL;
     
@@ -250,5 +242,13 @@ xppl_config_register(xppl_config_ctx_t *ctx, const char *key, xppl_config_type_t
         new_entry->data = xppl_calloc(vallen, 1);
         memcpy(new_entry->default_data, default_value, vallen);
         memcpy(new_entry->data, default_value, vallen);
+    }
+
+    /* set the description */
+    if (description != NULL)
+    {
+        size_t desc_len = strnlen(description, (size_t)(XPPL_CONFIG_DES_MAXLEN - 1));
+        new_entry->description = xppl_calloc(desc_len + 1, sizeof(char));
+        strncpy(new_entry->description, description, desc_len);
     }
 }

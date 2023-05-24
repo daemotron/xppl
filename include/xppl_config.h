@@ -13,6 +13,7 @@ extern "C" {
 #define XPPL_CONFIG_KEY_MAXLEN 128
 #define XPPL_CONFIG_VAL_MAXLEN 512
 #define XPPL_CONFIG_LIN_MAXLEN 1024
+#define XPPL_CONFIG_DES_MAXLEN 1024
 
 
 typedef enum xppl_config_type_n
@@ -30,7 +31,8 @@ typedef void * xppl_config_data_t;
 
 typedef struct xppl_config_entry_s
 {
-    char* key;
+    char *key;
+    char *description;
     xppl_config_type_t type;
     xppl_config_data_t data;
     xppl_config_data_t default_data;
@@ -39,6 +41,7 @@ typedef struct xppl_config_entry_s
 
 typedef struct xppl_config_ctx_s
 {
+    char *title;
     unsigned int entry_count;
     xppl_config_entry_t *entries;
     bool create_if_not_exists;
@@ -47,10 +50,10 @@ typedef struct xppl_config_ctx_s
 } xppl_config_ctx_t;
 
 
-void xppl_config_init(xppl_config_ctx_t *, const char *, const char *, bool);
+void xppl_config_init(xppl_config_ctx_t *, const char *, const char *, const char *, bool);
 void xppl_config_destroy(xppl_config_ctx_t *);
 
-void xppl_config_register(xppl_config_ctx_t *, const char *, xppl_config_type_t, xppl_config_data_t);
+void xppl_config_register(xppl_config_ctx_t *, const char *, xppl_config_type_t, xppl_config_data_t, const char *);
 void xppl_config_load(xppl_config_ctx_t *);
 
 xppl_config_entry_t *xppl_config_find(xppl_config_ctx_t *, const char *);

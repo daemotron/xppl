@@ -145,28 +145,42 @@ _cfg_create_if_not_exists(xppl_config_ctx_t *ctx)
         return;
     }
 
-    char *format = xppl_calloc(XPPL_CONFIG_KEY_MAXLEN + 10, sizeof(char));
-    char *buffer = xppl_calloc(2 * XPPL_CONFIG_LIN_MAXLEN, sizeof(char));
+    char *format = xppl_calloc(XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16, sizeof(char));
+    char *buffer = xppl_calloc(3 * XPPL_CONFIG_LIN_MAXLEN, sizeof(char));
 
     for (unsigned int i = 0; i < ctx->entry_count; i++)
     {
-        snprintf(format, XPPL_CONFIG_KEY_MAXLEN + 10, "%s = %s\n", ctx->entries[i].key, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE));
+        if (ctx->entries[i].description != NULL)
+        {
+            if (i == 0)
+            {
+                snprintf(format, XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16, "# %s\n%s = %s\n", ctx->entries[i].description, ctx->entries[i].key, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE));
+            }
+            else
+            {
+                snprintf(format, XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16, "\n# %s\n%s = %s\n", ctx->entries[i].description, ctx->entries[i].key, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE));
+            }
+        }
+        else
+        {
+            snprintf(format, XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16, "%s = %s\n", ctx->entries[i].key, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE));
+        }
         switch (ctx->entries[i].type)
             {
                 case XPPL_CONFIG_INT:
-                    snprintf(buffer, 2 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((long long *)ctx->entries[i].data));
+                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((long long *)ctx->entries[i].data));
                     break;
 
                 case XPPL_CONFIG_FLOAT:
-                    snprintf(buffer, 2 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((long double *)ctx->entries[i].data));
+                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((long double *)ctx->entries[i].data));
                     break;
                 
                 case XPPL_CONFIG_UNSIGNED:
-                    snprintf(buffer, 2 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((unsigned long long *)ctx->entries[i].data));
+                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((unsigned long long *)ctx->entries[i].data));
                     break;
 
                 case XPPL_CONFIG_STRING:
-                    snprintf(buffer, 2 * XPPL_CONFIG_LIN_MAXLEN - 1, format, (char *)ctx->entries[i].data);
+                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, (char *)ctx->entries[i].data);
                     break;
 
                 default:
@@ -174,8 +188,8 @@ _cfg_create_if_not_exists(xppl_config_ctx_t *ctx)
                     break;
             }
         fprintf(fp, buffer);
-        memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + 10);
-        memset(buffer, '\0', 2 * XPPL_CONFIG_LIN_MAXLEN);
+        memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16);
+        memset(buffer, '\0', 3 * XPPL_CONFIG_LIN_MAXLEN);
     }
 
     fclose(fp);
