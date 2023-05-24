@@ -74,7 +74,7 @@ _cfg_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
             /* write a debug log entry */
             char *log_format = xppl_calloc(64, sizeof(char));
             strncpy(log_format, "Configuration line %d: %s set to ", 64);
-            strncat(log_format, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE), 5);
+            strncat(log_format, _cast_get_formatter(ctx->entries[i].type, _CAST_FORMATTER_WRITE), 10);
             switch (ctx->entries[i].type)
             {
                 case XPPL_CONFIG_INT:
