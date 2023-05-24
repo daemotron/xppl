@@ -187,7 +187,7 @@ xppl_config_load(xppl_config_ctx_t *ctx)
     FILE *fp = fopen(ctx->path, "r");
     if (fp == NULL)
     {
-        xppl_log_error("Cannot open configuration file %s", ctx->path);
+        xppl_log_error("Cannot open configuration file %s for reading", ctx->path);
         return;
     }
 
