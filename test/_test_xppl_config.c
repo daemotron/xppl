@@ -36,6 +36,7 @@ bool __test_xppl_config_13(void);
 bool __test_xppl_config_14(void);
 bool __test_xppl_config_15(void);
 bool __test_xppl_config_16(void);
+bool __test_xppl_config_17(void);
 
 void
 _test_xppl_config_register(xppl_test_runner_t *tr)
@@ -57,6 +58,7 @@ _test_xppl_config_register(xppl_test_runner_t *tr)
     xppl_test_case_create(suite, __test_xppl_config_14, "xppl.config.entry set & get value string");
     xppl_test_case_create(suite, __test_xppl_config_15, "xppl.config.entry set & get multiple values");
     xppl_test_case_create(suite, __test_xppl_config_16, "xppl.config.entry find among multiple");
+    xppl_test_case_create(suite, __test_xppl_config_17, "xppl.config.entry load from file");
 }
 
 
@@ -145,7 +147,7 @@ bool
 __test_xppl_config_08(void)
 {
     xppl_config_ctx_t ctx;
-    long double default_value = 3.1415926535;
+    long double default_value = 3.1415926535L;
     xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value);
     bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_value);
@@ -201,8 +203,8 @@ bool
 __test_xppl_config_12(void)
 {
     xppl_config_ctx_t ctx;
-    long double default_value = 3.1415926535;
-    long double updated_value = 6.02214076;
+    long double default_value = 3.1415926535L;
+    long double updated_value = 6.02214076L;
     xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value);
     xppl_config_data_set_f(&ctx, "pi", updated_value);
@@ -249,7 +251,7 @@ __test_xppl_config_15(void)
 {
     xppl_config_ctx_t ctx;
     long long default_i = 42;
-    long double default_f = 3.1415926535;
+    long double default_f = 3.1415926535L;
     unsigned long long default_u = 9460730472580800ULL;
     char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
     char return_s[256] = { '\0' };
@@ -273,7 +275,7 @@ __test_xppl_config_16(void)
 {
     xppl_config_ctx_t ctx;
     long long default_i = 42;
-    long double default_f = 3.1415926535;
+    long double default_f = 3.1415926535L;
     unsigned long long default_u = 9460730472580800ULL;
     char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
     xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
@@ -290,10 +292,44 @@ __test_xppl_config_16(void)
 }
 
 
+bool
+__test_xppl_config_17(void)
+{
+    xppl_config_ctx_t ctx;
+    long long init_i = -42;
+    long double init_f = 6.02214076L;
+    unsigned long long init_u = 9460730472580800ULL;
+    char init_s[] = "boo";
+    long long correct_i = 42;
+    long double correct_f = 3.1415926535L;
+    unsigned long long correct_u = 9460730472580800ULL;
+    char correct_s[] = "baz";
+    char return_s[256] = { '\0' };
+
+    xppl_config_init(&ctx, __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
+    xppl_config_register(&ctx, "answer", XPPL_CONFIG_INT, &init_i);
+    xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &init_f);
+    xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &init_u);
+    xppl_config_register(&ctx, "foo", XPPL_CONFIG_STRING, init_s);
+    
+    __aux_config_file_create();
+    xppl_config_load(&ctx, __TEST_XPPL_CONFIG_FILE);
+    __aux_config_file_delete();
+
+    bool result_i = xppl_config_data_get_i(&ctx, "answer") == correct_i;
+    bool result_f = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), correct_f);
+    bool result_u = xppl_config_data_get_u(&ctx, "light-year") == correct_u;
+    xppl_config_data_get_s(&ctx, "foo", return_s, 256);
+    bool result_s = xppl_test_assert_str_equals(return_s, correct_s);
+    xppl_config_destroy(&ctx);
+    return result_i && result_f && result_u && result_s;
+}
+
+
 static void
 __aux_config_file_create(void)
 {
-    char buffer[] = "# test configuration file\n\n# syntax error\nnon ? sense\n#correct entry\nfoo = bar\nanswer = 42\npi = 3.1415926535# duplicate\nfoo = baz";
+    char buffer[] = "# test configuration file\n\n# syntax error\nnon ? sense\n#correct entry\nfoo = bar\nanswer = 42\npi = 3.1415926535\n# duplicate\nfoo = baz";
     FILE *fp = fopen(__TEST_XPPL_CONFIG_FILE, "w");
     if (fp != NULL)
     {
