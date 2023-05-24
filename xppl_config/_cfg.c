@@ -145,6 +145,11 @@ _cfg_create_if_not_exists(xppl_config_ctx_t *ctx)
         return;
     }
 
+    if (ctx->title != NULL)
+    {
+        fprintf(fp, "# %s\n# %.*s\n\n", ctx->title, (int)strlen(ctx->title), _XPPL_CONFIG_CFG_UNDERLINE);
+    }
+
     char *format = xppl_calloc(XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16, sizeof(char));
     char *buffer = xppl_calloc(3 * XPPL_CONFIG_LIN_MAXLEN, sizeof(char));
 
