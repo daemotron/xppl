@@ -51,7 +51,7 @@ void xppl_config_init(xppl_config_ctx_t *, const char *, const char *, bool);
 void xppl_config_destroy(xppl_config_ctx_t *);
 
 void xppl_config_register(xppl_config_ctx_t *, const char *, xppl_config_type_t, xppl_config_data_t);
-void xppl_config_load(xppl_config_ctx_t *, const char *);
+void xppl_config_load(xppl_config_ctx_t *);
 
 xppl_config_entry_t *xppl_config_find(xppl_config_ctx_t *, const char *);
 

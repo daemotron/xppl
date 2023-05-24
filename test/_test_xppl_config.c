@@ -313,7 +313,7 @@ __test_xppl_config_17(void)
     xppl_config_register(&ctx, "foo", XPPL_CONFIG_STRING, init_s);
     
     __aux_config_file_create();
-    xppl_config_load(&ctx, __TEST_XPPL_CONFIG_FILE);
+    xppl_config_load(&ctx);
     __aux_config_file_delete();
 
     bool result_i = xppl_config_data_get_i(&ctx, "answer") == correct_i;

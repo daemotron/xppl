@@ -182,12 +182,12 @@ xppl_config_find(xppl_config_ctx_t *ctx, const char *key)
 
 
 void
-xppl_config_load(xppl_config_ctx_t *ctx, const char *path)
+xppl_config_load(xppl_config_ctx_t *ctx)
 {
-    FILE *fp = fopen(path, "r");
+    FILE *fp = fopen(ctx->path, "r");
     if (fp == NULL)
     {
-        xppl_log_error("Cannot open configuration file %s", path);
+        xppl_log_error("Cannot open configuration file %s", ctx->path);
         return;
     }
 
