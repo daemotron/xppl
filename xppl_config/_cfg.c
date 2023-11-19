@@ -192,7 +192,7 @@ _cfg_create_if_not_exists(xppl_config_ctx_t *ctx)
                     xppl_log_debug("Invalid type for configuration key %s", ctx->entries[i].key);
                     break;
             }
-        fprintf(fp, buffer);
+        fprintf(fp, "%s", buffer);
         memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + XPPL_CONFIG_DES_MAXLEN + 16);
         memset(buffer, '\0', 3 * XPPL_CONFIG_LIN_MAXLEN);
     }
