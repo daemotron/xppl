@@ -31,6 +31,7 @@ include_directories("./include")
 file(GLOB_RECURSE TEST_SOURCES "test/*.c")
 file(GLOB_RECURSE XPPL_COMMON_SOURCES "xppl_common/*.c")
 file(GLOB_RECURSE XPPL_CONFIG_SOURCES "xppl_config/*.c")
+file(GLOB_RECURSE XPPL_MAP_SOURCES "xppl_map/*.c")
 file(GLOB_RECURSE XPPL_TEST_SOURCES "xppl_test/*.c")
 
 set(SOURCES ${TEST_SOURCES} ${XPPL_TEST_SOURCES} ${XPPL_COMMON_SOURCES} ${XPPL_CONFIG_SOURCES})
