@@ -49,6 +49,8 @@ void xppl_map_set_d(xppl_map_t *, const char *, double);
 void xppl_map_set_u(xppl_map_t *, const char *, unsigned long);
 void xppl_map_set_p(xppl_map_t *, const char *, void *);
 
+void xppl_map_delete(xppl_map_t *, const char *);
+
 #ifdef	__cplusplus
 }
 #endif

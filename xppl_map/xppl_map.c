@@ -30,7 +30,7 @@ xppl_map_get_i(xppl_map_t *map, const char *key)
     xppl_map_entry_t *entry = _entry_get(map, key);
     if (entry == NULL)
     {
-        return -1;
+        return 0;
     }
     else
     {
@@ -45,7 +45,7 @@ xppl_map_get_l(xppl_map_t *map, const char *key)
     xppl_map_entry_t *entry = _entry_get(map, key);
     if (entry == NULL)
     {
-        return -1L;
+        return 0L;
     }
     else
     {
@@ -60,7 +60,7 @@ xppl_map_get_f(xppl_map_t *map, const char *key)
     xppl_map_entry_t *entry = _entry_get(map, key);
     if (entry == NULL)
     {
-        return -1.0f;
+        return 0.0f;
     }
     else
     {
@@ -75,7 +75,7 @@ xppl_map_get_d(xppl_map_t *map, const char *key)
     xppl_map_entry_t *entry = _entry_get(map, key);
     if (entry == NULL)
     {
-        return -1.0;
+        return 0.0;
     }
     else
     {
@@ -200,5 +200,16 @@ xppl_map_set_p(xppl_map_t *map, const char *key, void *value)
     else
     {
         entry->value.p = value;
+    }
+}
+
+
+void
+xppl_map_delete(xppl_map_t *map, const char *key)
+{
+    xppl_map_entry_t *entry = _entry_get(map, key);
+    if (entry != NULL)
+    {
+        _entry_destroy(entry);
     }
 }

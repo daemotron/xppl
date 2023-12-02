@@ -15,6 +15,7 @@ bool __test_xppl_map_07_get_set_float(void);
 bool __test_xppl_map_08_get_set_double(void);
 bool __test_xppl_map_09_get_set_unsigned(void);
 bool __test_xppl_map_10_get_set_ptr(void);
+bool __test_xppl_map_11_entry_delete(void);
 
 
 void
@@ -31,6 +32,7 @@ _test_xppl_map_register(xppl_test_runner_t *tr)
     xppl_test_case_create(suite, __test_xppl_map_08_get_set_double, "get and set double");
     xppl_test_case_create(suite, __test_xppl_map_09_get_set_unsigned, "get and set unsigned");
     xppl_test_case_create(suite, __test_xppl_map_10_get_set_ptr, "get and set pointer");
+    xppl_test_case_create(suite, __test_xppl_map_11_entry_delete, "delete entry");
 }
 
 
@@ -169,6 +171,20 @@ __test_xppl_map_10_get_set_ptr(void)
     const char *text = "Lorem ipsum dolor sit amet";
     xppl_map_set_p(&map, "foo", (void *)text);
     bool flag = xppl_test_assert_str_equals(text, (const char *)xppl_map_get_p(&map, "foo"));
+    xppl_map_destroy(&map);
+    return flag;
+}
+
+
+bool
+__test_xppl_map_11_entry_delete(void)
+{
+    xppl_map_t map;
+    xppl_map_init(&map, 0);
+    xppl_map_set_i(&map, "foo", 123);
+    bool flag = (xppl_map_get_i(&map, "foo") == 123);
+    xppl_map_delete(&map, "foo");
+    flag = flag && (xppl_map_get_i(&map, "foo") == 0);
     xppl_map_destroy(&map);
     return flag;
 }

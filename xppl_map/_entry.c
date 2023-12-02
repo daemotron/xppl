@@ -90,6 +90,9 @@ void
 _entry_destroy(xppl_map_entry_t *entry)
 {
     free(entry->key);
+    entry->key = NULL;
+    entry->hash = (uint64_t)0;
+    entry->value.u = 0UL;
 }
 
 
