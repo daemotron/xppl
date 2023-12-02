@@ -8,7 +8,9 @@
 #include "_test_xppl_config.h"
 #include "_test_xppl_float.h"
 #include "_test_xppl_hash.h"
+#include "_test_xppl_map.h"
 #include "_test_xppl_path.h"
+
 
 int
 main (int argc, char **argv)
@@ -24,6 +26,7 @@ main (int argc, char **argv)
     _test_xppl_config_register(&tr);
     _test_xppl_float_register(&tr);
     _test_xppl_hash_register(&tr);
+    _test_xppl_map_register(&tr);
     _test_xppl_path_register(&tr);
 
     result = xppl_test_run(&tr);
