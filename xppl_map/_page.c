@@ -24,6 +24,7 @@ _page_create(xppl_map_t *map)
     for (size_t i = 0; i < map->page_size; i++)
     {
         map->entries[map->pages - 1][i].key = NULL;
+        map->entries[map->pages - 1][i].hash = (uint64_t)0;
     }
 }
 
