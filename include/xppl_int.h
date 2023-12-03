@@ -20,4 +20,3 @@ typedef __uint128_t uint128_t;
 #endif
 
 #endif /* _XPPL_INT_H_ */
-

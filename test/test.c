@@ -6,6 +6,7 @@
 #include <xppl_test.h>
 
 #include "_test_xppl_config.h"
+#include "_test_xppl_endianess.h"
 #include "_test_xppl_float.h"
 #include "_test_xppl_hash.h"
 #include "_test_xppl_map.h"
@@ -24,6 +25,7 @@ main (int argc, char **argv)
     xppl_test_runner_init(&tr);
     
     _test_xppl_config_register(&tr);
+    _test_xppl_endianess_register(&tr);
     _test_xppl_float_register(&tr);
     _test_xppl_hash_register(&tr);
     _test_xppl_map_register(&tr);
