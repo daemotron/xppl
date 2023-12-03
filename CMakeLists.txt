@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required (VERSION 3.2...3.27.5)
 
 # default compilers
 set(CMAKE_C_COMPILER "gcc")
