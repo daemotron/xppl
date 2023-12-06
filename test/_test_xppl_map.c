@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <xppl_test.h>
 #include <xppl_map.h>
 #include <xppl_float.h>
@@ -16,6 +18,10 @@ bool __test_xppl_map_08_get_set_double(void);
 bool __test_xppl_map_09_get_set_unsigned(void);
 bool __test_xppl_map_10_get_set_ptr(void);
 bool __test_xppl_map_11_entry_delete(void);
+bool __test_xppl_map_12_save(void);
+bool __test_xppl_map_13_load(void);
+bool __test_xppl_map_14_get_entry_exist(void);
+bool __test_xppl_map_15_get_entry_nonexist(void);
 
 
 void
@@ -33,6 +39,10 @@ _test_xppl_map_register(xppl_test_runner_t *tr)
     xppl_test_case_create(suite, __test_xppl_map_09_get_set_unsigned, "get and set unsigned");
     xppl_test_case_create(suite, __test_xppl_map_10_get_set_ptr, "get and set pointer");
     xppl_test_case_create(suite, __test_xppl_map_11_entry_delete, "delete entry");
+    xppl_test_case_create(suite, __test_xppl_map_12_save, "save map to file");
+    xppl_test_case_create(suite, __test_xppl_map_13_load, "load map from file");
+    xppl_test_case_create(suite, __test_xppl_map_14_get_entry_exist, "get existing entry");
+    xppl_test_case_create(suite, __test_xppl_map_15_get_entry_nonexist, "get non-existing entry");
 }
 
 
@@ -185,6 +195,58 @@ __test_xppl_map_11_entry_delete(void)
     bool flag = (xppl_map_get_i(&map, "foo") == 123);
     xppl_map_delete(&map, "foo");
     flag = flag && (xppl_map_get_i(&map, "foo") == 0);
+    xppl_map_destroy(&map);
+    return flag;
+}
+
+
+bool
+__test_xppl_map_12_save(void)
+{
+    xppl_map_t map;
+    xppl_map_init(&map, 0);
+    xppl_map_set_i(&map, "foo", 123);
+    xppl_map_set_i(&map, "bar", 456);
+    xppl_map_save(&map, "test.map");
+    xppl_map_destroy(&map);
+    return true;
+}
+
+
+bool
+__test_xppl_map_13_load(void)
+{
+    xppl_map_t map;
+    xppl_map_init(&map, 0);
+    xppl_map_load(&map, "test.map");
+    bool flag = (xppl_map_get_i(&map, "foo") == 123);
+    flag = flag && (xppl_map_get_i(&map, "bar") == 456);
+    xppl_map_destroy(&map);
+    remove("test.map");
+    return flag;
+}
+
+
+bool
+__test_xppl_map_14_get_entry_exist(void)
+{
+    xppl_map_t map;
+    xppl_map_init(&map, 0);
+    xppl_map_set_i(&map, "foo", 123);
+    xppl_map_entry_t *entry = xppl_map_get(&map, "foo");
+    bool flag = ((entry != NULL) && (entry->value.i == 123));
+    xppl_map_destroy(&map);
+    return flag;
+}
+
+
+bool
+__test_xppl_map_15_get_entry_nonexist(void)
+{
+    xppl_map_t map;
+    xppl_map_init(&map, 0);
+    xppl_map_set_i(&map, "foo", 123);
+    bool flag = (xppl_map_get(&map, "bar") == NULL);
     xppl_map_destroy(&map);
     return flag;
 }

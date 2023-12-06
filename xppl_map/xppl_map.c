@@ -1,6 +1,7 @@
 #include <xppl_map.h>
 #include "_entry.h"
 #include "_page.h"
+#include "_io.h"
 
 
 void
@@ -219,4 +220,18 @@ xppl_map_delete(xppl_map_t *map, const char *key)
     {
         _entry_destroy(entry);
     }
+}
+
+
+void
+xppl_map_load(xppl_map_t *map, const char *file)
+{
+    _io_load(map, file);
+}
+
+
+void
+xppl_map_save(xppl_map_t *map, const char *file)
+{
+    _io_save(map, file);
 }
