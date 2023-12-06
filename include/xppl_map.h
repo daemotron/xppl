@@ -35,6 +35,7 @@ typedef struct xppl_map_s
 void xppl_map_init(xppl_map_t *, size_t);
 void xppl_map_destroy(xppl_map_t *);
 
+xppl_map_entry_t *xppl_map_get(xppl_map_t *, const char *);
 int xppl_map_get_i(xppl_map_t *, const char *);
 long xppl_map_get_l(xppl_map_t *, const char *);
 float xppl_map_get_f(xppl_map_t *, const char *);

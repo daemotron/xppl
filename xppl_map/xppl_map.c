@@ -24,6 +24,13 @@ xppl_map_destroy(xppl_map_t *map)
 }
 
 
+xppl_map_entry_t *
+xppl_map_get(xppl_map_t *map, const char *key)
+{
+    return _entry_get(map, key);
+}
+
+
 int
 xppl_map_get_i(xppl_map_t *map, const char *key)
 {
