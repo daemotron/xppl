@@ -16,6 +16,7 @@ void _entry_create_p(xppl_map_t *, const char *, void *);
 void _entry_destroy(xppl_map_entry_t *);
 
 xppl_map_entry_t * _entry_get(xppl_map_t *, const char *);
+xppl_map_entry_t * _entry_get_or_create(xppl_map_t *, const char *);
 
 #ifdef	__cplusplus
 }

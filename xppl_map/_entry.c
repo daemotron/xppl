@@ -110,3 +110,15 @@ _entry_get(xppl_map_t *map, const char *key)
     }
     return NULL;
 }
+
+
+xppl_map_entry_t *
+_entry_get_or_create(xppl_map_t *map, const char *key)
+{
+    xppl_map_entry_t *entry = _entry_get(map, key);
+    if (entry == NULL)
+    {
+        entry = __entry_create(map, key);
+    }
+    return entry;
+}
