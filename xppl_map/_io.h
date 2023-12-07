@@ -5,8 +5,10 @@
 extern "C" {
 #endif
 
-#define XPPL_MAP_IO_IDENT_LE 0xd7cf4232238abb91
-#define XPPL_MAP_IO_IDENT_BE 0x4942b64be752473b
+#include <stdint.h>
+
+#define XPPL_MAP_IO_IDENT_LE (uint64_t)0xd7cf4232238abb91ULL
+#define XPPL_MAP_IO_IDENT_BE (uint64_t)0x4942b64be752473bULL
 
 void _io_save(xppl_map_t *, const char *);
 void _io_load(xppl_map_t *, const char *);

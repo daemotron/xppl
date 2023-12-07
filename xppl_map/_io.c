@@ -12,15 +12,16 @@
  * s bytes - value
  * n bytes - key (null-terminated)
  */
+#include <xppl_endianess.h>
+#include <xppl_alloc.h>
+#include <xppl_int.h>
+#include <xppl_log.h>
+#include <xppl_map.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <xppl_alloc.h>
-#include <xppl_endianess.h>
-#include <xppl_int.h>
-#include <xppl_log.h>
-#include <xppl_map.h>
+
 #include "_io.h"
 #include "_entry.h"
 

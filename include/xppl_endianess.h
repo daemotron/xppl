@@ -80,42 +80,44 @@ extern "C" {
  * The following macros provide platform-independent byte-order
  * conversion for 16, 32 and 64 bit integers, as well as float and double
  */
-#include <stdint.h>
 #if IBM
 #include <winsock2.h>
 #else /* !IBM */
 # include <arpa/inet.h>
-# if APPLE
+# if APL
 #  include <libkern/OSByteOrder.h>
-# else /* Linux */
+# else /* LIN */
 #  include <endian.h>
-# endif /* APPLE or LINUX */
+# endif /* APL or LIN */
 #endif /* Windows or Unix */
+#include <stdint.h>
 
 # define xppl_htons(x)  ((uint16_t)htons(x))
 # define xppl_htonl(x)  ((uint32_t)htonl(x))
 # define xppl_ntohs(x)  ((uint16_t)ntohs(x))
 # define xppl_ntohl(x)  ((uint32_t)ntohl(x))
 
-#if IBM
-# define xppl_htonll(x) ((uint64_t)htonll(x))
-# define xppl_htonf(x)  ((float)htonf(x))
-# define xppl_htond(x)  ((double)htond(x))
-# define xppl_ntohll(x) ((uint64_t)ntohll(x))
-# define xppl_ntohf(x)  ((float)ntohf(x))
-# define xppl_ntohd(x)  ((double)ntohd(x))
-#else /* !IBM */
 float xppl_htonf(float);
 float xppl_ntohf(float);
 double xppl_htond(double);
 double xppl_ntohd(double);
-# if APPLE
+
+#if IBM
+# if XPPL_ENDIANNESS_LE
+#  define xppl_htonll(x) (((uint64_t)htonl((x) & 0xFFFFFFFF) << 32) | htonl((x) >> 32))
+#  define xppl_ntohll(x) (((uint64_t)ntohl((x) & 0xFFFFFFFF) << 32) | ntohl((x) >> 32))
+# else
+#  define xppl_htonll(x) (x)
+#  define xppl_ntohll(x) (x)
+#endif
+#else /* !IBM */
+# if APL
 # define xppl_htonll(x) ((uint64_t)OSSwapHostToBigInt64(x))
 # define xppl_ntohll(x) ((uint64_t)OSSwapBigToHostInt64(x))
 # else /* Linux */
 #define xppl_htonll(x) ((uint64_t)htobe64(x))
 #define xppl_ntohll(x) ((uint64_t)be64toh(x))
-# endif /* APPLE or LINUX */
+# endif /* APL or LIN */
 #endif /* Windows or Unix */
 
 #ifdef	__cplusplus
