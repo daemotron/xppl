@@ -25,6 +25,14 @@ to add it as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodul
 and cherry-pick the modules you actually need by adding the corresponding modules to
 your own plugin's build scripts.
 
+```bash
+# add XPPL as submodule
+git submodule add https://github.com/daemotron/xppl.git
+
+# update the XPPL submodule
+git submodule update --remote xppl
+```
+
 Assuming the above, the file system layout of your plugin project might look like this:
 
 ```
@@ -53,35 +61,12 @@ In your `CMakeLists.txt`, you can embed XPPL modules this way:
    ```c
    #include <xppl.h>
    ```
-3. Make sure to call XPPL's constructor and destructor functions:
-   ```c
-   #include <XPLMPlugin.h>
-   #include <XPLMUtilities.h>
-   #include <xppl.h>
-
-   PLUGIN_API int
-   XPluginStart(char *outName, char *outSig, char *outDesc)
-   {
-       ...
-       xppl_init(XPLMDebugString, "MY-PLUGIN");
-       ...
-       return 1;
-   }
-
-   PLUGIN_API void
-   XPluginStop(void)
-   {
-       ...
-       xppl_destroy();
-       ...
-   }
-   ```      
-4. Add the mandatory `xppl_common` module to your source files:
+3. Add the mandatory `xppl_common` module to your source files:
    ```cmake
    file(GLOB_RECURSE XPPL_COMMON_SOURCES "xppl/xppl_common/*.c")
    ...
    set(SOURCES ... ${XPPL_COMMON_SOURCES})
    ```
-5. Optionally add further modules in the same way as you added the `common` module.
+4. Optionally add further modules in the same way as you added the `common` module.
 
 **Please Note:** the `xppl_common` module is mandatory, all other modules are optional.
