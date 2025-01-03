@@ -26,25 +26,25 @@ xppl_malloc(size_t size)
 static inline void *
 xppl_calloc(size_t num, size_t size)
 {
-	void *ptr = calloc(num, size);
-	if ((num > 0) && (size > 0) && (ptr == NULL))
+    void *ptr = calloc(num, size);
+    if ((num > 0) && (size > 0) && (ptr == NULL))
     {
         xppl_log_error("Failed to allocate %lu x %lu bytes of memory (out of memory)", (long unsigned)num, (long unsigned)size);
-		xppl_crash();
-	}
-	return ptr;
+        xppl_crash();
+    }
+    return ptr;
 }
 
 
 static inline void *
 xppl_realloc(void *old_ptr, size_t size)
 {
-	void *ptr = realloc(old_ptr, size);
-	if ((size > 0) && (ptr == NULL)) {
-		xppl_log_error("Failed to allocate %lu bytes of memory (out of memory)", (long unsigned)size);
+    void *ptr = realloc(old_ptr, size);
+    if ((size > 0) && (ptr == NULL)) {
+        xppl_log_error("Failed to allocate %lu bytes of memory (out of memory)", (long unsigned)size);
         xppl_crash();
-	}
-	return ptr;
+    }
+    return ptr;
 }
 
 
