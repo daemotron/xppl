@@ -98,11 +98,17 @@ _cfg_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
                     break;
             }
             free(log_format);
+
+            /* we found a match, so we can stop comparing here */
+            break;
         }
         else
         {
-            /* Anything else must be a syntax error */
-            xppl_log_error("Configuration line %d: Syntax error.", line_no);
+            if (i == (ctx->entry_count - 1))
+            {
+                /* We're on the last iteration and haven't found a match => must be a syntax error */
+                xppl_log_error("Configuration line %d: Syntax error.", line_no);
+            }
         }
         memset(format, '\0', XPPL_CONFIG_KEY_MAXLEN + 10);
     }
