@@ -60,12 +60,12 @@ void xppl_config_load(xppl_config_ctx_t *);
 xppl_config_entry_t *xppl_config_find(xppl_config_ctx_t *, const char *);
 
 long long xppl_config_data_get_i(xppl_config_ctx_t *, const char *);
-long double xppl_config_data_get_f(xppl_config_ctx_t *, const char *);
+double xppl_config_data_get_f(xppl_config_ctx_t *, const char *);
 unsigned long long xppl_config_data_get_u(xppl_config_ctx_t *, const char *);
 size_t xppl_config_data_get_s(xppl_config_ctx_t *, const char *, char *, size_t);
 
 void xppl_config_data_set_i(xppl_config_ctx_t *, const char *, long long);
-void xppl_config_data_set_f(xppl_config_ctx_t *, const char *, long double);
+void xppl_config_data_set_f(xppl_config_ctx_t *, const char *, double);
 void xppl_config_data_set_u(xppl_config_ctx_t *, const char *, unsigned long long);
 void xppl_config_data_set_s(xppl_config_ctx_t *, const char *, const char*);
 

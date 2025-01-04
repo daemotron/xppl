@@ -164,10 +164,10 @@ bool
 __test_xppl_config_entry_02(void)
 {
     xppl_config_ctx_t ctx;
-    long double default_value = 3.1415926535L;
+    double default_value = 3.1415926535;
     xppl_config_init(&ctx, "Test Configuration", __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value, NULL);
-    bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_value);
+    bool result = xppl_float_almost_equal_d(xppl_config_data_get_f(&ctx, "pi"), default_value);
     xppl_config_destroy(&ctx);
     return result;
 }
@@ -220,12 +220,12 @@ bool
 __test_xppl_config_entry_06(void)
 {
     xppl_config_ctx_t ctx;
-    long double default_value = 3.1415926535L;
-    long double updated_value = 6.02214076L;
+    double default_value = 3.1415926535;
+    double updated_value = 6.02214076;
     xppl_config_init(&ctx, "Test Configuration", __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
     xppl_config_register(&ctx, "pi", XPPL_CONFIG_FLOAT, &default_value, NULL);
     xppl_config_data_set_f(&ctx, "pi", updated_value);
-    bool result = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), updated_value);
+    bool result = xppl_float_almost_equal_d(xppl_config_data_get_f(&ctx, "pi"), updated_value);
     xppl_config_destroy(&ctx);
     return result;
 }
@@ -268,7 +268,7 @@ __test_xppl_config_entry_09(void)
 {
     xppl_config_ctx_t ctx;
     long long default_i = 42;
-    long double default_f = 3.1415926535L;
+    double default_f = 3.1415926535;
     unsigned long long default_u = 9460730472580800ULL;
     char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
     char return_s[256] = { '\0' };
@@ -278,7 +278,7 @@ __test_xppl_config_entry_09(void)
     xppl_config_register(&ctx, "light-year", XPPL_CONFIG_UNSIGNED, &default_u, NULL);
     xppl_config_register(&ctx, "quote", XPPL_CONFIG_STRING, default_s, NULL);
     bool result_i = xppl_config_data_get_i(&ctx, "answer") == default_i;
-    bool result_f = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_f);
+    bool result_f = xppl_float_almost_equal_d(xppl_config_data_get_f(&ctx, "pi"), default_f);
     bool result_u = xppl_config_data_get_u(&ctx, "light-year") == default_u;
     xppl_config_data_get_s(&ctx, "quote", return_s, 256);
     bool result_s = xppl_test_assert_str_equals(return_s, default_s);
@@ -292,7 +292,7 @@ __test_xppl_config_entry_10(void)
 {
     xppl_config_ctx_t ctx;
     long long default_i = 42;
-    long double default_f = 3.1415926535L;
+    double default_f = 3.1415926535;
     unsigned long long default_u = 9460730472580800ULL;
     char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
     xppl_config_init(&ctx, "Test Configuration", __TEST_XPPL_CONFIG_FILE, __TEST_XPPL_CONFIG_SEP, false);
@@ -327,11 +327,11 @@ __test_xppl_config_file_01(void)
 {
     xppl_config_ctx_t ctx;
     long long init_i = -42;
-    long double init_f = 6.02214076L;
+    double init_f = 6.02214076;
     unsigned long long init_u = 9460730472580800ULL;
     char init_s[] = "boo";
     long long correct_i = 42;
-    long double correct_f = 3.1415926535L;
+    double correct_f = 3.1415926535;
     unsigned long long correct_u = 9460730472580800ULL;
     char correct_s[] = "baz";
     char return_s[256] = { '\0' };
@@ -347,7 +347,7 @@ __test_xppl_config_file_01(void)
     __aux_config_file_delete();
 
     bool result_i = xppl_config_data_get_i(&ctx, "answer") == correct_i;
-    bool result_f = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), correct_f);
+    bool result_f = xppl_float_almost_equal_d(xppl_config_data_get_f(&ctx, "pi"), correct_f);
     bool result_u = xppl_config_data_get_u(&ctx, "light-year") == correct_u;
     xppl_config_data_get_s(&ctx, "foo", return_s, 256);
     bool result_s = xppl_test_assert_str_equals(return_s, correct_s);
@@ -361,7 +361,7 @@ __test_xppl_config_file_02(void)
 {
     xppl_config_ctx_t ctx;
     long long default_i = 42;
-    long double default_f = 3.1415926535L;
+    double default_f = 3.1415926535;
     unsigned long long default_u = 9460730472580800ULL;
     char default_s[] = "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. - Stephen Hawking";
     char return_s[256] = { '\0' };
@@ -374,7 +374,7 @@ __test_xppl_config_file_02(void)
     xppl_config_load(&ctx);
 
     bool result_i = xppl_config_data_get_i(&ctx, "answer") == default_i;
-    bool result_f = xppl_float_almost_equal_l(xppl_config_data_get_f(&ctx, "pi"), default_f);
+    bool result_f = xppl_float_almost_equal_d(xppl_config_data_get_f(&ctx, "pi"), default_f);
     bool result_u = xppl_config_data_get_u(&ctx, "light-year") == default_u;
     xppl_config_data_get_s(&ctx, "quote", return_s, 256);
     bool result_s = xppl_test_assert_str_equals(return_s, default_s);

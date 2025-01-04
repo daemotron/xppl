@@ -82,7 +82,7 @@ _cfg_parse(xppl_config_ctx_t *ctx, const char *input, int line_no)
                     break;
 
                 case XPPL_CONFIG_FLOAT:
-                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((long double *)ctx->entries[i].data));
+                    xppl_log_debug(log_format, line_no, ctx->entries[i].key, *((double *)ctx->entries[i].data));
                     break;
                 
                 case XPPL_CONFIG_UNSIGNED:
@@ -183,7 +183,7 @@ _cfg_create_if_not_exists(xppl_config_ctx_t *ctx)
                     break;
 
                 case XPPL_CONFIG_FLOAT:
-                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((long double *)ctx->entries[i].data));
+                    snprintf(buffer, 3 * XPPL_CONFIG_LIN_MAXLEN - 1, format, *((double *)ctx->entries[i].data));
                     break;
                 
                 case XPPL_CONFIG_UNSIGNED:

@@ -6,7 +6,7 @@
 #include "_cast.h"
 
 
-#define __CAST_FLOAT_FORMATTER_WRITE "%." xppl_str(LDBL_DIG) "Lf"
+#define __CAST_FLOAT_FORMATTER_WRITE "%." xppl_str(DBL_DIG) "lf"
 #define __CAST_STRING_FORMATTER_READ "%" xppl_str(XPPL_CONFIG_STR_MAXLEN) "[^\n\r]"
 
 
@@ -30,7 +30,7 @@ _cast_get_formatter(xppl_config_type_t type, _cast_formatter_type_t ftype)
             }
             else
             {
-                return "%Lf";
+                return "%lf";
             }
             break;
 
@@ -70,7 +70,7 @@ _cast_get_size(xppl_config_type_t type)
             break;
 
         case XPPL_CONFIG_FLOAT:
-            return sizeof(long double);
+            return sizeof(double);
             break;
 
         case XPPL_CONFIG_UNSIGNED:

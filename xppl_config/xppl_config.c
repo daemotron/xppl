@@ -87,7 +87,7 @@ xppl_config_data_get_i(xppl_config_ctx_t *ctx, const char *key)
 }
 
 
-long double
+double
 xppl_config_data_get_f(xppl_config_ctx_t *ctx, const char *key)
 {
     xppl_config_entry_t *ptr = xppl_config_find(ctx, key);
@@ -96,7 +96,7 @@ xppl_config_data_get_f(xppl_config_ctx_t *ctx, const char *key)
         xppl_log_warn("Config data: Cannot find configuration entry for %s", key);
         return 0.0;
     }
-    return *((long double *)ptr->data);
+    return *((double *)ptr->data);
 }
 
 
@@ -136,7 +136,7 @@ xppl_config_data_set_i(xppl_config_ctx_t *ctx, const char *key, long long data)
 
 
 void
-xppl_config_data_set_f(xppl_config_ctx_t *ctx, const char *key, long double data)
+xppl_config_data_set_f(xppl_config_ctx_t *ctx, const char *key, double data)
 {
     _cfg_update(ctx, key, &data);
 }
