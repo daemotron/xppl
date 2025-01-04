@@ -7,6 +7,7 @@
 
 
 #define __CAST_FLOAT_FORMATTER_WRITE "%." xppl_str(LDBL_DIG) "Lf"
+#define __CAST_STRING_FORMATTER_READ "%" xppl_str(XPPL_CONFIG_STR_MAXLEN) "[^\n\r]"
 
 
 const char *
@@ -40,7 +41,7 @@ _cast_get_formatter(xppl_config_type_t type, _cast_formatter_type_t ftype)
         case XPPL_CONFIG_STRING:
             if (ftype == _CAST_FORMATTER_READ)
             {
-                return "%[^\n\r]";
+                return __CAST_STRING_FORMATTER_READ;
             }
             else
             {
