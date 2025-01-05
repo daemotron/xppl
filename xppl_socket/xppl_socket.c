@@ -31,7 +31,7 @@ xppl_socket_init(void)
 
 
 void
-socket_destroy_win(void)
+xppl_socket_destroy(void)
 {
 #if IBM
     WSACleanup();

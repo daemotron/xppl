@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 #if IBM
-typedef unsigned long long socket_t;
+typedef unsigned long long xppl_socket_t;
 #define XPPL_SOCKET_FAILED ~0ULL
 #else /* !IBM */
 typedef int xppl_socket_t;
