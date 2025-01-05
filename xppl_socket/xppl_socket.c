@@ -2,7 +2,6 @@
 
 #if IBM
 #include <winsock2.h>
-#pragma comment(lib, "ws2_32.lib")
 #else /* !IBM */
 #include <sys/socket.h>
 #include <fcntl.h>
@@ -23,7 +22,7 @@ xppl_socket_init(void)
     int start_result = WSAStartup(MAKEWORD(2, 2), &wsa);
     if (start_result != 0)
     {
-        log_error("WSAStartup failed with error code %i", start_result);
+        xppl_log_error("WSAStartup failed with error code %i", start_result);
         return;
     }
 #endif /* IBM */
@@ -45,7 +44,7 @@ xppl_socket(int af, int type, int protocol)
 {
     if (!__xppl_socket_initialized)
     {
-        xppl_socket_initialize();
+        xppl_socket_init();
         if (!__xppl_socket_initialized)
         {
             xppl_log_error("Unable to initialize socket system");
