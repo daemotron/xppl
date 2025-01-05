@@ -57,6 +57,17 @@ xppl_socket(int af, int type, int protocol)
 
 
 void
+xppl_socket_close(xppl_socket_t socket_fd)
+{
+#if IBM
+    closesocket(socket_fd);
+#else /* !IBM */
+    close(socket_fd);
+#endif
+}
+
+
+void
 xppl_socket_non_blocking(xppl_socket_t socket_fd) {
 #if IBM
     u_long mode = 1;
