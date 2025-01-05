@@ -13,6 +13,8 @@ typedef int xppl_socket_t;
 #define XPPL_SOCKET_FAILED -1
 #endif
 
+void xppl_socket_init(void);
+void xppl_socket_destroy(void);
 xppl_socket_t xppl_socket(int, int, int);
 
 #ifdef	__cplusplus
