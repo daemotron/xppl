@@ -5,6 +5,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #else /* !IBM */
 #include <sys/socket.h>
+#include <fcntl.h>
 #endif
 
 #include <xppl_socket.h>
@@ -52,4 +53,16 @@ xppl_socket(int af, int type, int protocol)
         }
     }
     return socket(af, type, protocol);
+}
+
+
+void
+xppl_socket_non_blocking(xppl_socket_t socket_fd) {
+#if IBM
+    u_long mode = 1;
+    ioctlsocket(socket_fd, FIONBIO, &mode);
+#else /* !IBM */
+    int flags = fcntl(socket_fd, F_GETFL, 0);
+    fcntl(socket_fd, F_SETFL, flags | O_NONBLOCK);
+#endif
 }
