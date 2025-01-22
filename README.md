@@ -267,8 +267,45 @@ int i = xppl_map_get_i(&map, "my int");
 /* save map to a file */
 xppl_map_save(&map, "Output/myplugin/data.map");
 
+/* load map from a file */
+xppl_map_t othermap;
+xppl_map_init(&othermap, 0);
+xppl_map_load(&othermap, "Output/myplugin/data.map");
+
 /* clean up */
 xppl_map_destroy(&map);
+```
+
+### xppl_socket
+
+Wrapper for socket functions abstracting the different APIs on Windows, Linux and macOS
+
+API calls being identical on all three platforms (like `bind()`, `listen()`) etc. can be used directly
+and are therefore not wrapped by XPPL.
+
+```c
+#include <xppl_socket.h>
+
+/* initialize socket system - on Windows, this ensures WSAStartup() is called */
+xppl_socket_init();
+
+/* create socket */
+xppl_socket_t s = xppl_socket(AF_INET, SOCK_STREAM, 0);
+if (s == XPPL_SOCKET_FAILED) { ... }
+
+/* make a socket non-blocking */
+xppl_socket_non_blocking(s);
+
+/* shutdown a socket */
+xppl_socket_shutdown_receive(s);
+xppl_socket_shutdown_send(s);
+xppl_socket_shutdown_both(s);
+
+/* close a socket */
+xppl_socket_close(s);
+
+/* clean up - on Windows, this ensures WSACleanup() is called */
+xppl_socket_destroy();
 ```
 
 ### xppl_test
