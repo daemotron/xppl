@@ -5,6 +5,7 @@
 #else /* !IBM */
 #include <sys/socket.h>
 #include <fcntl.h>
+#include <unistd.h>
 #endif
 
 #include <xppl_socket.h>
